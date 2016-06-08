@@ -81,8 +81,7 @@ POST_UNINSTALL = :
 build_triplet = x86_64-unknown-linux-gnu
 host_triplet = arm-unknown-linux-androideabi
 DIST_COMMON = $(srcdir)/Makefile.inc $(srcdir)/Makefile.in \
-	$(srcdir)/Makefile.am $(top_srcdir)/mkinstalldirs \
-	$(top_srcdir)/depcomp README
+	$(srcdir)/Makefile.am $(top_srcdir)/depcomp README
 #noinst_PROGRAMS = $(am__EXEEXT_1)
 subdir = tests/unit
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -105,7 +104,7 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/curl-compilers.m4 \
 	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
-mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/lib/curl_config.h \
 	$(top_builddir)/include/curl/curlbuild.h
 CONFIG_CLEAN_FILES =
@@ -114,7 +113,8 @@ am__EXEEXT_1 = unit1300$(EXEEXT) unit1301$(EXEEXT) unit1302$(EXEEXT) \
 	unit1303$(EXEEXT) unit1304$(EXEEXT) unit1305$(EXEEXT) \
 	unit1307$(EXEEXT) unit1308$(EXEEXT) unit1309$(EXEEXT) \
 	unit1330$(EXEEXT) unit1394$(EXEEXT) unit1395$(EXEEXT) \
-	unit1396$(EXEEXT) unit1397$(EXEEXT) unit1398$(EXEEXT)
+	unit1396$(EXEEXT) unit1397$(EXEEXT) unit1398$(EXEEXT) \
+	unit1600$(EXEEXT) unit1601$(EXEEXT) unit1602$(EXEEXT)
 PROGRAMS = $(noinst_PROGRAMS)
 am__dirstamp = $(am__leading_dot)dirstamp
 am__objects_1 = ../libtest/unit1300-first.$(OBJEXT)
@@ -212,6 +212,24 @@ unit1398_OBJECTS = $(am_unit1398_OBJECTS)
 unit1398_LDADD = $(LDADD)
 unit1398_DEPENDENCIES = $(top_builddir)/src/libcurltool.la \
 	$(top_builddir)/lib/libcurlu.la
+am__objects_16 = ../libtest/unit1600-first.$(OBJEXT)
+am_unit1600_OBJECTS = unit1600-unit1600.$(OBJEXT) $(am__objects_16)
+unit1600_OBJECTS = $(am_unit1600_OBJECTS)
+unit1600_LDADD = $(LDADD)
+unit1600_DEPENDENCIES = $(top_builddir)/src/libcurltool.la \
+	$(top_builddir)/lib/libcurlu.la
+am__objects_17 = ../libtest/unit1601-first.$(OBJEXT)
+am_unit1601_OBJECTS = unit1601-unit1601.$(OBJEXT) $(am__objects_17)
+unit1601_OBJECTS = $(am_unit1601_OBJECTS)
+unit1601_LDADD = $(LDADD)
+unit1601_DEPENDENCIES = $(top_builddir)/src/libcurltool.la \
+	$(top_builddir)/lib/libcurlu.la
+am__objects_18 = ../libtest/unit1602-first.$(OBJEXT)
+am_unit1602_OBJECTS = unit1602-unit1602.$(OBJEXT) $(am__objects_18)
+unit1602_OBJECTS = $(am_unit1602_OBJECTS)
+unit1602_LDADD = $(LDADD)
+unit1602_DEPENDENCIES = $(top_builddir)/src/libcurltool.la \
+	$(top_builddir)/lib/libcurlu.la
 AM_V_P = $(am__v_P_$(V))
 am__v_P_ = $(am__v_P_$(AM_DEFAULT_VERBOSITY))
 am__v_P_0 = false
@@ -250,13 +268,15 @@ SOURCES = $(unit1300_SOURCES) $(unit1301_SOURCES) $(unit1302_SOURCES) \
 	$(unit1303_SOURCES) $(unit1304_SOURCES) $(unit1305_SOURCES) \
 	$(unit1307_SOURCES) $(unit1308_SOURCES) $(unit1309_SOURCES) \
 	$(unit1330_SOURCES) $(unit1394_SOURCES) $(unit1395_SOURCES) \
-	$(unit1396_SOURCES) $(unit1397_SOURCES) $(unit1398_SOURCES)
+	$(unit1396_SOURCES) $(unit1397_SOURCES) $(unit1398_SOURCES) \
+	$(unit1600_SOURCES) $(unit1601_SOURCES) $(unit1602_SOURCES)
 DIST_SOURCES = $(unit1300_SOURCES) $(unit1301_SOURCES) \
 	$(unit1302_SOURCES) $(unit1303_SOURCES) $(unit1304_SOURCES) \
 	$(unit1305_SOURCES) $(unit1307_SOURCES) $(unit1308_SOURCES) \
 	$(unit1309_SOURCES) $(unit1330_SOURCES) $(unit1394_SOURCES) \
 	$(unit1395_SOURCES) $(unit1396_SOURCES) $(unit1397_SOURCES) \
-	$(unit1398_SOURCES)
+	$(unit1398_SOURCES) $(unit1600_SOURCES) $(unit1601_SOURCES) \
+	$(unit1602_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -282,25 +302,25 @@ am__define_uniq_tagged_files = \
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-ACLOCAL = ${SHELL} "/Android/curl-7.38.0/missing" --run aclocal-1.14
+ACLOCAL = ${SHELL} /Users/garytan/Documents/curl-7.43.0/missing aclocal-1.14
 AMTAR = $${TAR-tar}
 AM_DEFAULT_VERBOSITY = 1
 AR = arm-linux-androideabi-ar
 AS = arm-linux-androideabi-as
-AUTOCONF = ${SHELL} "/Android/curl-7.38.0/missing" --run autoconf
-AUTOHEADER = ${SHELL} "/Android/curl-7.38.0/missing" --run autoheader
-AUTOMAKE = ${SHELL} "/Android/curl-7.38.0/missing" --run automake-1.14
-AWK = mawk
+AUTOCONF = ${SHELL} /Users/garytan/Documents/curl-7.43.0/missing autoconf
+AUTOHEADER = ${SHELL} /Users/garytan/Documents/curl-7.43.0/missing autoheader
+AUTOMAKE = ${SHELL} /Users/garytan/Documents/curl-7.43.0/missing automake-1.14
+AWK = awk
 BLANK_AT_MAKETIME = 
-CC = /Android/toolchain-arm/bin/arm-linux-androideabi-gcc
+CC = arm-linux-androideabi-gcc
 CCDEPMODE = depmode=none
-CFLAGS = -v -DANDROID --sysroot=/Android/toolchain-arm/sysroot -mandroid -march=armv7 -mfloat-abi=softfp -mfpu=vfp -mthumb -DCURL_STATICLIB -O2 -Wno-system-headers
-CFLAG_CURL_SYMBOL_HIDING = 
-CONFIGURE_OPTIONS = " '--host=arm-linux-androideabi' '--disable-shared' '--enable-static' '--disable-dependency-tracking' '--with-zlib=/Android/zlib' '--with-ssl=/Android/openssl-1.0.2d' '--without-ca-bundle' '--without-ca-path' '--enable-ipv6' '--enable-http' '--enable-ftp' '--disable-file' '--disable-ldap' '--disable-ldaps' '--disable-rtsp' '--disable-proxy' '--disable-dict' '--disable-telnet' '--disable-tftp' '--disable-pop3' '--disable-imap' '--disable-smtp' '--disable-gopher' '--disable-sspi' '--disable-manual' '--target=arm-linux-androideabi' '--build=x86_64-unknown-linux-gnu' '--prefix=/opt/curlssl' 'build_alias=x86_64-unknown-linux-gnu' 'host_alias=arm-linux-androideabi' 'target_alias=arm-linux-androideabi' 'CC=/Android/toolchain-arm/bin/arm-linux-androideabi-gcc' 'CFLAGS=-v -DANDROID --sysroot=/Android/toolchain-arm/sysroot -mandroid -march=armv7 -mfloat-abi=softfp -mfpu=vfp -mthumb -DCURL_STATICLIB' 'LDFLAGS=-L/Android/toolchain-arm/include -march=armv7 -Wl,--fix-cortex-a8 -L/Android/openssl-1.0.2d' 'CPPFLAGS=-mthumb -mfloat-abi=softfp -mfpu=vfp -march=armv7 -DANDROID-v -DANDROID --sysroot=/Android/toolchain-arm/sysroot -mandroid -march=armv7 -mfloat-abi=softfp -mfpu=vfp -mthumb -DCURL_STATICLIB -L/Android/openssl-1.0.2d/include'"
-CPP = /Android/toolchain-arm/bin/arm-linux-androideabi-gcc -E
-CPPFLAGS = -mthumb -mfloat-abi=softfp -mfpu=vfp -march=armv7 -DANDROID-v -DANDROID --sysroot=/Android/toolchain-arm/sysroot -mandroid -march=armv7 -mfloat-abi=softfp -mfpu=vfp -mthumb -DCURL_STATICLIB -L/Android/openssl-1.0.2d/include -I/Android/zlib/include -I/Android/openssl-1.0.2d/include -I/Android/openssl-1.0.2d/include/openssl
+CFLAGS = -O2 -Wno-system-headers
+CFLAG_CURL_SYMBOL_HIDING = -fvisibility=hidden
+CONFIGURE_OPTIONS = " '--host=arm-linux-androideabi' '--disable-shared' '--enable-static' '--disable-dependency-tracking' '--with-zlib=/Users/garytan/Documents/zlib' '--with-ssl=/Users/garytan/Documents/openssl-1.0.2c' '--without-ca-bundle' '--without-ca-path' '--enable-ipv6' '--enable-http' '--enable-ftp' '--disable-file' '--disable-ldap' '--disable-ldaps' '--disable-rtsp' '--disable-proxy' '--disable-dict' '--disable-telnet' '--disable-tftp' '--disable-pop3' '--disable-imap' '--disable-smtp' '--disable-gopher' '--disable-sspi' '--disable-manual' '--target=arm-linux-androideabi' '--build=x86_64-unknown-linux-gnu' '--prefix=/opt/curlssl' 'build_alias=x86_64-unknown-linux-gnu' 'host_alias=arm-linux-androideabi' 'target_alias=arm-linux-androideabi' 'CC=arm-linux-androideabi-gcc' 'CPPFLAGS=-mthumb -mfloat-abi=softfp -mfpu=vfp -march=armv7  -DANDROID'"
+CPP = arm-linux-androideabi-gcc -E
+CPPFLAGS = -mthumb -mfloat-abi=softfp -mfpu=vfp -march=armv7 -DANDROID -I/Users/garytan/Documents/zlib/include
 CPPFLAG_CURL_STATICLIB = -DCURL_STATICLIB
-CURLVERSION = 7.38.0
+CURLVERSION = 7.43.0
 CURL_CA_BUNDLE = 
 CURL_CFLAG_EXTRAS = 
 CURL_DISABLE_DICT = 1
@@ -314,6 +334,7 @@ CURL_DISABLE_LDAPS = 1
 CURL_DISABLE_POP3 = 1
 CURL_DISABLE_PROXY = 1
 CURL_DISABLE_RTSP = 1
+CURL_DISABLE_SMB = 
 CURL_DISABLE_SMTP = 1
 CURL_DISABLE_TELNET = 1
 CURL_DISABLE_TFTP = 1
@@ -326,19 +347,19 @@ DEPDIR = .deps
 DLLTOOL = false
 DSYMUTIL = 
 DUMPBIN = 
-ECHO_C = 
-ECHO_N = -n
+ECHO_C = \c
+ECHO_N = 
 ECHO_T = 
-EGREP = /bin/grep -E
+EGREP = /usr/bin/grep -E
 ENABLE_SHARED = no
 ENABLE_STATIC = yes
 EXEEXT = 
-FGREP = /bin/grep -F
-GREP = /bin/grep
+FGREP = /usr/bin/grep -F
+GREP = /usr/bin/grep
 HAVE_GNUTLS_SRP = 
 HAVE_LDAP_SSL = 
 HAVE_LIBZ = 1
-HAVE_SSLEAY_SRP = 1
+HAVE_OPENSSL_SRP = 
 IDN_ENABLED = 
 INSTALL = /usr/bin/install -c
 INSTALL_DATA = ${INSTALL} -m 644
@@ -347,8 +368,8 @@ INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
 IPV6_ENABLED = 1
 LD = arm-linux-androideabi-ld
-LDFLAGS = -L/Android/toolchain-arm/include -march=armv7 -Wl,--fix-cortex-a8 -L/Android/openssl-1.0.2d -L/Android/zlib/lib -L/Android/openssl-1.0.2d/lib
-LIBCURL_LIBS = -lssl -lcrypto -lz
+LDFLAGS = -L/Users/garytan/Documents/zlib/lib
+LIBCURL_LIBS = -lz
 LIBMETALINK_CPPFLAGS = 
 LIBMETALINK_LDFLAGS = 
 LIBMETALINK_LIBS = 
@@ -361,10 +382,10 @@ LIPO =
 LN_S = ln -s
 LTLIBOBJS = 
 MAINT = #
-MAKEINFO = ${SHELL} "/Android/curl-7.38.0/missing" --run makeinfo
+MAKEINFO = ${SHELL} /Users/garytan/Documents/curl-7.43.0/missing makeinfo
 MANIFEST_TOOL = :
 MANOPT = -man
-MKDIR_P = /bin/mkdir -p
+MKDIR_P = ../.././install-sh -c -d
 NM = arm-linux-androideabi-nm
 NMEDIT = 
 NROFF = /usr/bin/nroff
@@ -389,13 +410,14 @@ PKGCONFIG = no
 RANDOM_FILE = 
 RANLIB = arm-linux-androideabi-ranlib
 REQUIRE_LIB_DEPS = yes
-SED = /bin/sed
+SED = /usr/bin/sed
 SET_MAKE = 
-SHELL = /bin/bash
-SSL_ENABLED = 1
+SHELL = /bin/sh
+SSL_ENABLED = 
+SSL_LIBS = 
 STRIP = arm-linux-androideabi-strip
-SUPPORT_FEATURES = SSL IPv6 libz NTLM NTLM_WB TLS-SRP
-SUPPORT_PROTOCOLS = FTP FTPS HTTP HTTPS
+SUPPORT_FEATURES = IPv6 UnixSockets libz
+SUPPORT_PROTOCOLS = FTP HTTP
 USE_ARES = 
 USE_AXTLS = 
 USE_CYASSL = 
@@ -409,15 +431,15 @@ USE_NSS =
 USE_OPENLDAP = 
 USE_POLARSSL = 
 USE_SCHANNEL = 
-USE_SSLEAY = 1
+USE_UNIX_SOCKETS = 1
 USE_WINDOWS_SSPI = 
 VERSION = -
-VERSIONNUM = 072600
+VERSIONNUM = 072b00
 ZLIB_LIBS = -lz
-abs_builddir = /Android/curl-7.38.0/tests/unit
-abs_srcdir = /Android/curl-7.38.0/tests/unit
-abs_top_builddir = /Android/curl-7.38.0
-abs_top_srcdir = /Android/curl-7.38.0
+abs_builddir = /Users/garytan/Documents/curl-7.43.0/tests/unit
+abs_srcdir = /Users/garytan/Documents/curl-7.43.0/tests/unit
+abs_top_builddir = /Users/garytan/Documents/curl-7.43.0
+abs_top_srcdir = /Users/garytan/Documents/curl-7.43.0
 ac_ct_AR = 
 ac_ct_CC = 
 ac_ct_DUMPBIN = 
@@ -446,7 +468,7 @@ host_vendor = unknown
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = ${SHELL} /Android/curl-7.38.0/install-sh
+install_sh = ${SHELL} /Users/garytan/Documents/curl-7.43.0/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 libext = a
@@ -525,7 +547,7 @@ AM_CPPFLAGS = -I$(top_builddir)/include/curl \
 EXTRA_DIST = Makefile.inc
 LDADD = $(top_builddir)/src/libcurltool.la   \
         $(top_builddir)/lib/libcurlu.la      \
-        -L/Android/toolchain-arm/include -march=armv7 -Wl,--fix-cortex-a8 -L/Android/openssl-1.0.2d -L/Android/zlib/lib -L/Android/openssl-1.0.2d/lib -lssl -lcrypto -lz
+        -L/Users/garytan/Documents/zlib/lib -lz
 
 DEPENDENCIES = $(top_builddir)/src/libcurltool.la \
                $(top_builddir)/lib/libcurlu.la
@@ -536,8 +558,9 @@ UNITFILES = curlcheck.h \
 
 
 # These are all unit test programs
-UNITPROGS = unit1300 unit1301 unit1302 unit1303 unit1304 unit1305 unit1307 \
- unit1308 unit1309 unit1330 unit1394 unit1395 unit1396 unit1397 unit1398
+UNITPROGS = unit1300 unit1301 unit1302 unit1303 unit1304 unit1305 unit1307	\
+ unit1308 unit1309 unit1330 unit1394 unit1395 unit1396 unit1397 unit1398	\
+ unit1600 unit1601 unit1602
 
 unit1300_SOURCES = unit1300.c $(UNITFILES)
 unit1300_CPPFLAGS = $(AM_CPPFLAGS)
@@ -561,7 +584,7 @@ unit1330_SOURCES = unit1330.c $(UNITFILES)
 unit1330_CPPFLAGS = $(AM_CPPFLAGS)
 unit1394_SOURCES = unit1394.c $(UNITFILES)
 unit1394_CPPFLAGS = $(AM_CPPFLAGS) $(LIBMETALINK_CPPFLAGS)
-unit1394_LDADD =  $(top_builddir)/lib/libcurl.la -lssl -lcrypto -lz
+unit1394_LDADD =  $(top_builddir)/lib/libcurl.la -lz
 unit1394_LDFLAGS =  $(top_builddir)/src/libcurltool.la
 unit1394_LIBS = 
 unit1395_SOURCES = unit1395.c $(UNITFILES)
@@ -572,6 +595,12 @@ unit1397_SOURCES = unit1397.c $(UNITFILES)
 unit1397_CPPFLAGS = $(AM_CPPFLAGS)
 unit1398_SOURCES = unit1398.c $(UNITFILES)
 unit1398_CPPFLAGS = $(AM_CPPFLAGS)
+unit1600_SOURCES = unit1600.c $(UNITFILES)
+unit1600_CPPFLAGS = $(AM_CPPFLAGS)
+unit1601_SOURCES = unit1601.c $(UNITFILES)
+unit1601_CPPFLAGS = $(AM_CPPFLAGS)
+unit1602_SOURCES = unit1602.c $(UNITFILES)
+unit1602_CPPFLAGS = $(AM_CPPFLAGS)
 all: all-am
 
 .SUFFIXES:
@@ -712,6 +741,24 @@ unit1397$(EXEEXT): $(unit1397_OBJECTS) $(unit1397_DEPENDENCIES) $(EXTRA_unit1397
 unit1398$(EXEEXT): $(unit1398_OBJECTS) $(unit1398_DEPENDENCIES) $(EXTRA_unit1398_DEPENDENCIES) 
 	@rm -f unit1398$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(unit1398_OBJECTS) $(unit1398_LDADD) $(LIBS)
+../libtest/unit1600-first.$(OBJEXT): ../libtest/$(am__dirstamp) \
+	../libtest/$(DEPDIR)/$(am__dirstamp)
+
+unit1600$(EXEEXT): $(unit1600_OBJECTS) $(unit1600_DEPENDENCIES) $(EXTRA_unit1600_DEPENDENCIES) 
+	@rm -f unit1600$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(unit1600_OBJECTS) $(unit1600_LDADD) $(LIBS)
+../libtest/unit1601-first.$(OBJEXT): ../libtest/$(am__dirstamp) \
+	../libtest/$(DEPDIR)/$(am__dirstamp)
+
+unit1601$(EXEEXT): $(unit1601_OBJECTS) $(unit1601_DEPENDENCIES) $(EXTRA_unit1601_DEPENDENCIES) 
+	@rm -f unit1601$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(unit1601_OBJECTS) $(unit1601_LDADD) $(LIBS)
+../libtest/unit1602-first.$(OBJEXT): ../libtest/$(am__dirstamp) \
+	../libtest/$(DEPDIR)/$(am__dirstamp)
+
+unit1602$(EXEEXT): $(unit1602_OBJECTS) $(unit1602_DEPENDENCIES) $(EXTRA_unit1602_DEPENDENCIES) 
+	@rm -f unit1602$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(unit1602_OBJECTS) $(unit1602_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -735,6 +782,9 @@ distclean-compile:
 #include ../libtest/$(DEPDIR)/unit1396-first.Po
 #include ../libtest/$(DEPDIR)/unit1397-first.Po
 #include ../libtest/$(DEPDIR)/unit1398-first.Po
+#include ../libtest/$(DEPDIR)/unit1600-first.Po
+#include ../libtest/$(DEPDIR)/unit1601-first.Po
+#include ../libtest/$(DEPDIR)/unit1602-first.Po
 #include ./$(DEPDIR)/unit1300-unit1300.Po
 #include ./$(DEPDIR)/unit1301-unit1301.Po
 #include ./$(DEPDIR)/unit1302-unit1302.Po
@@ -750,6 +800,9 @@ distclean-compile:
 #include ./$(DEPDIR)/unit1396-unit1396.Po
 #include ./$(DEPDIR)/unit1397-unit1397.Po
 #include ./$(DEPDIR)/unit1398-unit1398.Po
+#include ./$(DEPDIR)/unit1600-unit1600.Po
+#include ./$(DEPDIR)/unit1601-unit1601.Po
+#include ./$(DEPDIR)/unit1602-unit1602.Po
 
 .c.o:
 #	$(AM_V_CC)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
@@ -1194,6 +1247,90 @@ unit1398-unit1398.obj: unit1398.c
 #	$(AM_V_CC)source='../libtest/first.c' object='../libtest/unit1398-first.obj' libtool=no 
 #	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
 	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit1398_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o ../libtest/unit1398-first.obj `if test -f '../libtest/first.c'; then $(CYGPATH_W) '../libtest/first.c'; else $(CYGPATH_W) '$(srcdir)/../libtest/first.c'; fi`
+
+unit1600-unit1600.o: unit1600.c
+#	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit1600_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT unit1600-unit1600.o -MD -MP -MF $(DEPDIR)/unit1600-unit1600.Tpo -c -o unit1600-unit1600.o `test -f 'unit1600.c' || echo '$(srcdir)/'`unit1600.c
+#	$(AM_V_at)$(am__mv) $(DEPDIR)/unit1600-unit1600.Tpo $(DEPDIR)/unit1600-unit1600.Po
+#	$(AM_V_CC)source='unit1600.c' object='unit1600-unit1600.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit1600_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o unit1600-unit1600.o `test -f 'unit1600.c' || echo '$(srcdir)/'`unit1600.c
+
+unit1600-unit1600.obj: unit1600.c
+#	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit1600_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT unit1600-unit1600.obj -MD -MP -MF $(DEPDIR)/unit1600-unit1600.Tpo -c -o unit1600-unit1600.obj `if test -f 'unit1600.c'; then $(CYGPATH_W) 'unit1600.c'; else $(CYGPATH_W) '$(srcdir)/unit1600.c'; fi`
+#	$(AM_V_at)$(am__mv) $(DEPDIR)/unit1600-unit1600.Tpo $(DEPDIR)/unit1600-unit1600.Po
+#	$(AM_V_CC)source='unit1600.c' object='unit1600-unit1600.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit1600_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o unit1600-unit1600.obj `if test -f 'unit1600.c'; then $(CYGPATH_W) 'unit1600.c'; else $(CYGPATH_W) '$(srcdir)/unit1600.c'; fi`
+
+../libtest/unit1600-first.o: ../libtest/first.c
+#	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit1600_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT ../libtest/unit1600-first.o -MD -MP -MF ../libtest/$(DEPDIR)/unit1600-first.Tpo -c -o ../libtest/unit1600-first.o `test -f '../libtest/first.c' || echo '$(srcdir)/'`../libtest/first.c
+#	$(AM_V_at)$(am__mv) ../libtest/$(DEPDIR)/unit1600-first.Tpo ../libtest/$(DEPDIR)/unit1600-first.Po
+#	$(AM_V_CC)source='../libtest/first.c' object='../libtest/unit1600-first.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit1600_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o ../libtest/unit1600-first.o `test -f '../libtest/first.c' || echo '$(srcdir)/'`../libtest/first.c
+
+../libtest/unit1600-first.obj: ../libtest/first.c
+#	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit1600_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT ../libtest/unit1600-first.obj -MD -MP -MF ../libtest/$(DEPDIR)/unit1600-first.Tpo -c -o ../libtest/unit1600-first.obj `if test -f '../libtest/first.c'; then $(CYGPATH_W) '../libtest/first.c'; else $(CYGPATH_W) '$(srcdir)/../libtest/first.c'; fi`
+#	$(AM_V_at)$(am__mv) ../libtest/$(DEPDIR)/unit1600-first.Tpo ../libtest/$(DEPDIR)/unit1600-first.Po
+#	$(AM_V_CC)source='../libtest/first.c' object='../libtest/unit1600-first.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit1600_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o ../libtest/unit1600-first.obj `if test -f '../libtest/first.c'; then $(CYGPATH_W) '../libtest/first.c'; else $(CYGPATH_W) '$(srcdir)/../libtest/first.c'; fi`
+
+unit1601-unit1601.o: unit1601.c
+#	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit1601_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT unit1601-unit1601.o -MD -MP -MF $(DEPDIR)/unit1601-unit1601.Tpo -c -o unit1601-unit1601.o `test -f 'unit1601.c' || echo '$(srcdir)/'`unit1601.c
+#	$(AM_V_at)$(am__mv) $(DEPDIR)/unit1601-unit1601.Tpo $(DEPDIR)/unit1601-unit1601.Po
+#	$(AM_V_CC)source='unit1601.c' object='unit1601-unit1601.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit1601_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o unit1601-unit1601.o `test -f 'unit1601.c' || echo '$(srcdir)/'`unit1601.c
+
+unit1601-unit1601.obj: unit1601.c
+#	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit1601_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT unit1601-unit1601.obj -MD -MP -MF $(DEPDIR)/unit1601-unit1601.Tpo -c -o unit1601-unit1601.obj `if test -f 'unit1601.c'; then $(CYGPATH_W) 'unit1601.c'; else $(CYGPATH_W) '$(srcdir)/unit1601.c'; fi`
+#	$(AM_V_at)$(am__mv) $(DEPDIR)/unit1601-unit1601.Tpo $(DEPDIR)/unit1601-unit1601.Po
+#	$(AM_V_CC)source='unit1601.c' object='unit1601-unit1601.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit1601_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o unit1601-unit1601.obj `if test -f 'unit1601.c'; then $(CYGPATH_W) 'unit1601.c'; else $(CYGPATH_W) '$(srcdir)/unit1601.c'; fi`
+
+../libtest/unit1601-first.o: ../libtest/first.c
+#	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit1601_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT ../libtest/unit1601-first.o -MD -MP -MF ../libtest/$(DEPDIR)/unit1601-first.Tpo -c -o ../libtest/unit1601-first.o `test -f '../libtest/first.c' || echo '$(srcdir)/'`../libtest/first.c
+#	$(AM_V_at)$(am__mv) ../libtest/$(DEPDIR)/unit1601-first.Tpo ../libtest/$(DEPDIR)/unit1601-first.Po
+#	$(AM_V_CC)source='../libtest/first.c' object='../libtest/unit1601-first.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit1601_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o ../libtest/unit1601-first.o `test -f '../libtest/first.c' || echo '$(srcdir)/'`../libtest/first.c
+
+../libtest/unit1601-first.obj: ../libtest/first.c
+#	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit1601_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT ../libtest/unit1601-first.obj -MD -MP -MF ../libtest/$(DEPDIR)/unit1601-first.Tpo -c -o ../libtest/unit1601-first.obj `if test -f '../libtest/first.c'; then $(CYGPATH_W) '../libtest/first.c'; else $(CYGPATH_W) '$(srcdir)/../libtest/first.c'; fi`
+#	$(AM_V_at)$(am__mv) ../libtest/$(DEPDIR)/unit1601-first.Tpo ../libtest/$(DEPDIR)/unit1601-first.Po
+#	$(AM_V_CC)source='../libtest/first.c' object='../libtest/unit1601-first.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit1601_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o ../libtest/unit1601-first.obj `if test -f '../libtest/first.c'; then $(CYGPATH_W) '../libtest/first.c'; else $(CYGPATH_W) '$(srcdir)/../libtest/first.c'; fi`
+
+unit1602-unit1602.o: unit1602.c
+#	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit1602_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT unit1602-unit1602.o -MD -MP -MF $(DEPDIR)/unit1602-unit1602.Tpo -c -o unit1602-unit1602.o `test -f 'unit1602.c' || echo '$(srcdir)/'`unit1602.c
+#	$(AM_V_at)$(am__mv) $(DEPDIR)/unit1602-unit1602.Tpo $(DEPDIR)/unit1602-unit1602.Po
+#	$(AM_V_CC)source='unit1602.c' object='unit1602-unit1602.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit1602_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o unit1602-unit1602.o `test -f 'unit1602.c' || echo '$(srcdir)/'`unit1602.c
+
+unit1602-unit1602.obj: unit1602.c
+#	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit1602_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT unit1602-unit1602.obj -MD -MP -MF $(DEPDIR)/unit1602-unit1602.Tpo -c -o unit1602-unit1602.obj `if test -f 'unit1602.c'; then $(CYGPATH_W) 'unit1602.c'; else $(CYGPATH_W) '$(srcdir)/unit1602.c'; fi`
+#	$(AM_V_at)$(am__mv) $(DEPDIR)/unit1602-unit1602.Tpo $(DEPDIR)/unit1602-unit1602.Po
+#	$(AM_V_CC)source='unit1602.c' object='unit1602-unit1602.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit1602_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o unit1602-unit1602.obj `if test -f 'unit1602.c'; then $(CYGPATH_W) 'unit1602.c'; else $(CYGPATH_W) '$(srcdir)/unit1602.c'; fi`
+
+../libtest/unit1602-first.o: ../libtest/first.c
+#	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit1602_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT ../libtest/unit1602-first.o -MD -MP -MF ../libtest/$(DEPDIR)/unit1602-first.Tpo -c -o ../libtest/unit1602-first.o `test -f '../libtest/first.c' || echo '$(srcdir)/'`../libtest/first.c
+#	$(AM_V_at)$(am__mv) ../libtest/$(DEPDIR)/unit1602-first.Tpo ../libtest/$(DEPDIR)/unit1602-first.Po
+#	$(AM_V_CC)source='../libtest/first.c' object='../libtest/unit1602-first.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit1602_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o ../libtest/unit1602-first.o `test -f '../libtest/first.c' || echo '$(srcdir)/'`../libtest/first.c
+
+../libtest/unit1602-first.obj: ../libtest/first.c
+#	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit1602_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT ../libtest/unit1602-first.obj -MD -MP -MF ../libtest/$(DEPDIR)/unit1602-first.Tpo -c -o ../libtest/unit1602-first.obj `if test -f '../libtest/first.c'; then $(CYGPATH_W) '../libtest/first.c'; else $(CYGPATH_W) '$(srcdir)/../libtest/first.c'; fi`
+#	$(AM_V_at)$(am__mv) ../libtest/$(DEPDIR)/unit1602-first.Tpo ../libtest/$(DEPDIR)/unit1602-first.Po
+#	$(AM_V_CC)source='../libtest/first.c' object='../libtest/unit1602-first.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit1602_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o ../libtest/unit1602-first.obj `if test -f '../libtest/first.c'; then $(CYGPATH_W) '../libtest/first.c'; else $(CYGPATH_W) '$(srcdir)/../libtest/first.c'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo

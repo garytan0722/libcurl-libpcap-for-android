@@ -21,7 +21,7 @@
 #                            | (__| |_| |  _ <| |___
 #                             \___|\___/|_| \_\_____|
 #
-# Copyright (C) 1998 - 2014, Daniel Stenberg, <daniel@haxx.se>, et al.
+# Copyright (C) 1998 - 2015, Daniel Stenberg, <daniel@haxx.se>, et al.
 #
 # This software is licensed as described in the file COPYING, which
 # you should have received as part of this distribution. The terms
@@ -102,7 +102,7 @@ build_triplet = x86_64-unknown-linux-gnu
 host_triplet = arm-unknown-linux-androideabi
 subdir = docs/libcurl
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
-	$(top_srcdir)/mkinstalldirs $(dist_m4macro_DATA)
+	$(dist_m4macro_DATA) $(top_srcdir)/test-driver
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/curl-compilers.m4 \
 	$(top_srcdir)/m4/curl-confopts.m4 \
@@ -123,7 +123,7 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/curl-compilers.m4 \
 	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
-mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/lib/curl_config.h \
 	$(top_builddir)/include/curl/curlbuild.h
 CONFIG_CLEAN_FILES =
@@ -195,7 +195,7 @@ am__recursive_targets = \
   $(RECURSIVE_CLEAN_TARGETS) \
   $(am__extra_recursive_targets)
 AM_RECURSIVE_TARGETS = $(am__recursive_targets:-recursive=) TAGS CTAGS \
-	distdir
+	check recheck distdir
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
 # Read a list of newline-separated strings from the standard input,
 # and print each of them once, without duplicates.  Input order is
@@ -215,6 +215,182 @@ am__define_uniq_tagged_files = \
   done | $(am__uniquify_input)`
 ETAGS = etags
 CTAGS = ctags
+am__tty_colors_dummy = \
+  mgn= red= grn= lgn= blu= brg= std=; \
+  am__color_tests=no
+am__tty_colors = { \
+  $(am__tty_colors_dummy); \
+  if test "X$(AM_COLOR_TESTS)" = Xno; then \
+    am__color_tests=no; \
+  elif test "X$(AM_COLOR_TESTS)" = Xalways; then \
+    am__color_tests=yes; \
+  elif test "X$$TERM" != Xdumb && { test -t 1; } 2>/dev/null; then \
+    am__color_tests=yes; \
+  fi; \
+  if test $$am__color_tests = yes; then \
+    red='[0;31m'; \
+    grn='[0;32m'; \
+    lgn='[1;32m'; \
+    blu='[1;34m'; \
+    mgn='[0;35m'; \
+    brg='[1m'; \
+    std='[m'; \
+  fi; \
+}
+am__recheck_rx = ^[ 	]*:recheck:[ 	]*
+am__global_test_result_rx = ^[ 	]*:global-test-result:[ 	]*
+am__copy_in_global_log_rx = ^[ 	]*:copy-in-global-log:[ 	]*
+# A command that, given a newline-separated list of test names on the
+# standard input, print the name of the tests that are to be re-run
+# upon "make recheck".
+am__list_recheck_tests = $(AWK) '{ \
+  recheck = 1; \
+  while ((rc = (getline line < ($$0 ".trs"))) != 0) \
+    { \
+      if (rc < 0) \
+        { \
+          if ((getline line2 < ($$0 ".log")) < 0) \
+	    recheck = 0; \
+          break; \
+        } \
+      else if (line ~ /$(am__recheck_rx)[nN][Oo]/) \
+        { \
+          recheck = 0; \
+          break; \
+        } \
+      else if (line ~ /$(am__recheck_rx)[yY][eE][sS]/) \
+        { \
+          break; \
+        } \
+    }; \
+  if (recheck) \
+    print $$0; \
+  close ($$0 ".trs"); \
+  close ($$0 ".log"); \
+}'
+# A command that, given a newline-separated list of test names on the
+# standard input, create the global log from their .trs and .log files.
+am__create_global_log = $(AWK) ' \
+function fatal(msg) \
+{ \
+  print "fatal: making $@: " msg | "cat >&2"; \
+  exit 1; \
+} \
+function rst_section(header) \
+{ \
+  print header; \
+  len = length(header); \
+  for (i = 1; i <= len; i = i + 1) \
+    printf "="; \
+  printf "\n\n"; \
+} \
+{ \
+  copy_in_global_log = 1; \
+  global_test_result = "RUN"; \
+  while ((rc = (getline line < ($$0 ".trs"))) != 0) \
+    { \
+      if (rc < 0) \
+         fatal("failed to read from " $$0 ".trs"); \
+      if (line ~ /$(am__global_test_result_rx)/) \
+        { \
+          sub("$(am__global_test_result_rx)", "", line); \
+          sub("[ 	]*$$", "", line); \
+          global_test_result = line; \
+        } \
+      else if (line ~ /$(am__copy_in_global_log_rx)[nN][oO]/) \
+        copy_in_global_log = 0; \
+    }; \
+  if (copy_in_global_log) \
+    { \
+      rst_section(global_test_result ": " $$0); \
+      while ((rc = (getline line < ($$0 ".log"))) != 0) \
+      { \
+        if (rc < 0) \
+          fatal("failed to read from " $$0 ".log"); \
+        print line; \
+      }; \
+      printf "\n"; \
+    }; \
+  close ($$0 ".trs"); \
+  close ($$0 ".log"); \
+}'
+# Restructured Text title.
+am__rst_title = { sed 's/.*/   &   /;h;s/./=/g;p;x;s/ *$$//;p;g' && echo; }
+# Solaris 10 'make', and several other traditional 'make' implementations,
+# pass "-e" to $(SHELL), and POSIX 2008 even requires this.  Work around it
+# by disabling -e (using the XSI extension "set +e") if it's set.
+am__sh_e_setup = case $$- in *e*) set +e;; esac
+# Default flags passed to test drivers.
+am__common_driver_flags = \
+  --color-tests "$$am__color_tests" \
+  --enable-hard-errors "$$am__enable_hard_errors" \
+  --expect-failure "$$am__expect_failure"
+# To be inserted before the command running the test.  Creates the
+# directory for the log if needed.  Stores in $dir the directory
+# containing $f, in $tst the test, in $log the log.  Executes the
+# developer- defined test setup AM_TESTS_ENVIRONMENT (if any), and
+# passes TESTS_ENVIRONMENT.  Set up options for the wrapper that
+# will run the test scripts (or their associated LOG_COMPILER, if
+# thy have one).
+am__check_pre = \
+$(am__sh_e_setup);					\
+$(am__vpath_adj_setup) $(am__vpath_adj)			\
+$(am__tty_colors);					\
+srcdir=$(srcdir); export srcdir;			\
+case "$@" in						\
+  */*) am__odir=`echo "./$@" | sed 's|/[^/]*$$||'`;;	\
+    *) am__odir=.;; 					\
+esac;							\
+test "x$$am__odir" = x"." || test -d "$$am__odir" 	\
+  || $(MKDIR_P) "$$am__odir" || exit $$?;		\
+if test -f "./$$f"; then dir=./;			\
+elif test -f "$$f"; then dir=;				\
+else dir="$(srcdir)/"; fi;				\
+tst=$$dir$$f; log='$@'; 				\
+if test -n '$(DISABLE_HARD_ERRORS)'; then		\
+  am__enable_hard_errors=no; 				\
+else							\
+  am__enable_hard_errors=yes; 				\
+fi; 							\
+case " $(XFAIL_TESTS) " in				\
+  *[\ \	]$$f[\ \	]* | *[\ \	]$$dir$$f[\ \	]*) \
+    am__expect_failure=yes;;				\
+  *)							\
+    am__expect_failure=no;;				\
+esac; 							\
+$(AM_TESTS_ENVIRONMENT) $(TESTS_ENVIRONMENT)
+# A shell command to get the names of the tests scripts with any registered
+# extension removed (i.e., equivalently, the names of the test logs, with
+# the '.log' extension removed).  The result is saved in the shell variable
+# '$bases'.  This honors runtime overriding of TESTS and TEST_LOGS.  Sadly,
+# we cannot use something simpler, involving e.g., "$(TEST_LOGS:.log=)",
+# since that might cause problem with VPATH rewrites for suffix-less tests.
+# See also 'test-harness-vpath-rewrite.sh' and 'test-trs-basic.sh'.
+am__set_TESTS_bases = \
+  bases='$(TEST_LOGS)'; \
+  bases=`for i in $$bases; do echo $$i; done | sed 's/\.log$$//'`; \
+  bases=`echo $$bases`
+RECHECK_LOGS = $(TEST_LOGS)
+TEST_SUITE_LOG = test-suite.log
+TEST_EXTENSIONS =  .test
+LOG_DRIVER = $(SHELL) $(top_srcdir)/test-driver
+LOG_COMPILE = $(LOG_COMPILER) $(AM_LOG_FLAGS) $(LOG_FLAGS)
+am__set_b = \
+  case '$@' in \
+    */*) \
+      case '$*' in \
+        */*) b='$*';; \
+          *) b=`echo '$@' | sed 's/\.log$$//'`; \
+       esac;; \
+    *) \
+      b='$*';; \
+  esac
+am__test_logs1 = $(TESTS:=.log)
+am__test_logs2 = $(am__test_logs1:.log=.log)
+TEST_LOGS = $(am__test_logs2:.test.log=.log)
+TEST_LOG_DRIVER = $(SHELL) $(top_srcdir)/test-driver
+TEST_LOG_COMPILE = $(TEST_LOG_COMPILER) $(AM_TEST_LOG_FLAGS) \
+	$(TEST_LOG_FLAGS)
 DIST_SUBDIRS = $(SUBDIRS)
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 am__relativize = \
@@ -242,25 +418,25 @@ am__relativize = \
     dir1=`echo "$$dir1" | sed -e "$$sed_rest"`; \
   done; \
   reldir="$$dir2"
-ACLOCAL = ${SHELL} "/Android/curl-7.38.0/missing" --run aclocal-1.14
+ACLOCAL = ${SHELL} /Users/garytan/Documents/curl-7.43.0/missing aclocal-1.14
 AMTAR = $${TAR-tar}
 AM_DEFAULT_VERBOSITY = 1
 AR = arm-linux-androideabi-ar
 AS = arm-linux-androideabi-as
-AUTOCONF = ${SHELL} "/Android/curl-7.38.0/missing" --run autoconf
-AUTOHEADER = ${SHELL} "/Android/curl-7.38.0/missing" --run autoheader
-AUTOMAKE = ${SHELL} "/Android/curl-7.38.0/missing" --run automake-1.14
-AWK = mawk
+AUTOCONF = ${SHELL} /Users/garytan/Documents/curl-7.43.0/missing autoconf
+AUTOHEADER = ${SHELL} /Users/garytan/Documents/curl-7.43.0/missing autoheader
+AUTOMAKE = ${SHELL} /Users/garytan/Documents/curl-7.43.0/missing automake-1.14
+AWK = awk
 BLANK_AT_MAKETIME = 
-CC = /Android/toolchain-arm/bin/arm-linux-androideabi-gcc
+CC = arm-linux-androideabi-gcc
 CCDEPMODE = depmode=none
-CFLAGS = -v -DANDROID --sysroot=/Android/toolchain-arm/sysroot -mandroid -march=armv7 -mfloat-abi=softfp -mfpu=vfp -mthumb -DCURL_STATICLIB -O2 -Wno-system-headers
-CFLAG_CURL_SYMBOL_HIDING = 
-CONFIGURE_OPTIONS = " '--host=arm-linux-androideabi' '--disable-shared' '--enable-static' '--disable-dependency-tracking' '--with-zlib=/Android/zlib' '--with-ssl=/Android/openssl-1.0.2d' '--without-ca-bundle' '--without-ca-path' '--enable-ipv6' '--enable-http' '--enable-ftp' '--disable-file' '--disable-ldap' '--disable-ldaps' '--disable-rtsp' '--disable-proxy' '--disable-dict' '--disable-telnet' '--disable-tftp' '--disable-pop3' '--disable-imap' '--disable-smtp' '--disable-gopher' '--disable-sspi' '--disable-manual' '--target=arm-linux-androideabi' '--build=x86_64-unknown-linux-gnu' '--prefix=/opt/curlssl' 'build_alias=x86_64-unknown-linux-gnu' 'host_alias=arm-linux-androideabi' 'target_alias=arm-linux-androideabi' 'CC=/Android/toolchain-arm/bin/arm-linux-androideabi-gcc' 'CFLAGS=-v -DANDROID --sysroot=/Android/toolchain-arm/sysroot -mandroid -march=armv7 -mfloat-abi=softfp -mfpu=vfp -mthumb -DCURL_STATICLIB' 'LDFLAGS=-L/Android/toolchain-arm/include -march=armv7 -Wl,--fix-cortex-a8 -L/Android/openssl-1.0.2d' 'CPPFLAGS=-mthumb -mfloat-abi=softfp -mfpu=vfp -march=armv7 -DANDROID-v -DANDROID --sysroot=/Android/toolchain-arm/sysroot -mandroid -march=armv7 -mfloat-abi=softfp -mfpu=vfp -mthumb -DCURL_STATICLIB -L/Android/openssl-1.0.2d/include'"
-CPP = /Android/toolchain-arm/bin/arm-linux-androideabi-gcc -E
-CPPFLAGS = -mthumb -mfloat-abi=softfp -mfpu=vfp -march=armv7 -DANDROID-v -DANDROID --sysroot=/Android/toolchain-arm/sysroot -mandroid -march=armv7 -mfloat-abi=softfp -mfpu=vfp -mthumb -DCURL_STATICLIB -L/Android/openssl-1.0.2d/include -I/Android/zlib/include -I/Android/openssl-1.0.2d/include -I/Android/openssl-1.0.2d/include/openssl
+CFLAGS = -O2 -Wno-system-headers
+CFLAG_CURL_SYMBOL_HIDING = -fvisibility=hidden
+CONFIGURE_OPTIONS = " '--host=arm-linux-androideabi' '--disable-shared' '--enable-static' '--disable-dependency-tracking' '--with-zlib=/Users/garytan/Documents/zlib' '--with-ssl=/Users/garytan/Documents/openssl-1.0.2c' '--without-ca-bundle' '--without-ca-path' '--enable-ipv6' '--enable-http' '--enable-ftp' '--disable-file' '--disable-ldap' '--disable-ldaps' '--disable-rtsp' '--disable-proxy' '--disable-dict' '--disable-telnet' '--disable-tftp' '--disable-pop3' '--disable-imap' '--disable-smtp' '--disable-gopher' '--disable-sspi' '--disable-manual' '--target=arm-linux-androideabi' '--build=x86_64-unknown-linux-gnu' '--prefix=/opt/curlssl' 'build_alias=x86_64-unknown-linux-gnu' 'host_alias=arm-linux-androideabi' 'target_alias=arm-linux-androideabi' 'CC=arm-linux-androideabi-gcc' 'CPPFLAGS=-mthumb -mfloat-abi=softfp -mfpu=vfp -march=armv7  -DANDROID'"
+CPP = arm-linux-androideabi-gcc -E
+CPPFLAGS = -mthumb -mfloat-abi=softfp -mfpu=vfp -march=armv7 -DANDROID -I/Users/garytan/Documents/zlib/include
 CPPFLAG_CURL_STATICLIB = -DCURL_STATICLIB
-CURLVERSION = 7.38.0
+CURLVERSION = 7.43.0
 CURL_CA_BUNDLE = 
 CURL_CFLAG_EXTRAS = 
 CURL_DISABLE_DICT = 1
@@ -274,6 +450,7 @@ CURL_DISABLE_LDAPS = 1
 CURL_DISABLE_POP3 = 1
 CURL_DISABLE_PROXY = 1
 CURL_DISABLE_RTSP = 1
+CURL_DISABLE_SMB = 
 CURL_DISABLE_SMTP = 1
 CURL_DISABLE_TELNET = 1
 CURL_DISABLE_TFTP = 1
@@ -286,19 +463,19 @@ DEPDIR = .deps
 DLLTOOL = false
 DSYMUTIL = 
 DUMPBIN = 
-ECHO_C = 
-ECHO_N = -n
+ECHO_C = \c
+ECHO_N = 
 ECHO_T = 
-EGREP = /bin/grep -E
+EGREP = /usr/bin/grep -E
 ENABLE_SHARED = no
 ENABLE_STATIC = yes
 EXEEXT = 
-FGREP = /bin/grep -F
-GREP = /bin/grep
+FGREP = /usr/bin/grep -F
+GREP = /usr/bin/grep
 HAVE_GNUTLS_SRP = 
 HAVE_LDAP_SSL = 
 HAVE_LIBZ = 1
-HAVE_SSLEAY_SRP = 1
+HAVE_OPENSSL_SRP = 
 IDN_ENABLED = 
 INSTALL = /usr/bin/install -c
 INSTALL_DATA = ${INSTALL} -m 644
@@ -307,22 +484,22 @@ INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
 IPV6_ENABLED = 1
 LD = arm-linux-androideabi-ld
-LDFLAGS = -L/Android/toolchain-arm/include -march=armv7 -Wl,--fix-cortex-a8 -L/Android/openssl-1.0.2d -L/Android/zlib/lib -L/Android/openssl-1.0.2d/lib
-LIBCURL_LIBS = -lssl -lcrypto -lz
+LDFLAGS = -L/Users/garytan/Documents/zlib/lib
+LIBCURL_LIBS = -lz
 LIBMETALINK_CPPFLAGS = 
 LIBMETALINK_LDFLAGS = 
 LIBMETALINK_LIBS = 
 LIBOBJS = 
-LIBS = -lssl -lcrypto -lz
+LIBS = -lz
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
 LIPO = 
 LN_S = ln -s
 LTLIBOBJS = 
 MAINT = #
-MAKEINFO = ${SHELL} "/Android/curl-7.38.0/missing" --run makeinfo
+MAKEINFO = ${SHELL} /Users/garytan/Documents/curl-7.43.0/missing makeinfo
 MANIFEST_TOOL = :
 MANOPT = -man
-MKDIR_P = /bin/mkdir -p
+MKDIR_P = ../.././install-sh -c -d
 NM = arm-linux-androideabi-nm
 NMEDIT = 
 NROFF = /usr/bin/nroff
@@ -347,13 +524,14 @@ PKGCONFIG = no
 RANDOM_FILE = 
 RANLIB = arm-linux-androideabi-ranlib
 REQUIRE_LIB_DEPS = yes
-SED = /bin/sed
+SED = /usr/bin/sed
 SET_MAKE = 
-SHELL = /bin/bash
-SSL_ENABLED = 1
+SHELL = /bin/sh
+SSL_ENABLED = 
+SSL_LIBS = 
 STRIP = arm-linux-androideabi-strip
-SUPPORT_FEATURES = SSL IPv6 libz NTLM NTLM_WB TLS-SRP
-SUPPORT_PROTOCOLS = FTP FTPS HTTP HTTPS
+SUPPORT_FEATURES = IPv6 UnixSockets libz
+SUPPORT_PROTOCOLS = FTP HTTP
 USE_ARES = 
 USE_AXTLS = 
 USE_CYASSL = 
@@ -367,15 +545,15 @@ USE_NSS =
 USE_OPENLDAP = 
 USE_POLARSSL = 
 USE_SCHANNEL = 
-USE_SSLEAY = 1
+USE_UNIX_SOCKETS = 1
 USE_WINDOWS_SSPI = 
 VERSION = -
-VERSIONNUM = 072600
+VERSIONNUM = 072b00
 ZLIB_LIBS = -lz
-abs_builddir = /Android/curl-7.38.0/docs/libcurl
-abs_srcdir = /Android/curl-7.38.0/docs/libcurl
-abs_top_builddir = /Android/curl-7.38.0
-abs_top_srcdir = /Android/curl-7.38.0
+abs_builddir = /Users/garytan/Documents/curl-7.43.0/docs/libcurl
+abs_srcdir = /Users/garytan/Documents/curl-7.43.0/docs/libcurl
+abs_top_builddir = /Users/garytan/Documents/curl-7.43.0
+abs_top_srcdir = /Users/garytan/Documents/curl-7.43.0
 ac_ct_AR = 
 ac_ct_CC = 
 ac_ct_DUMPBIN = 
@@ -404,7 +582,7 @@ host_vendor = unknown
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = ${SHELL} /Android/curl-7.38.0/install-sh
+install_sh = ${SHELL} /Users/garytan/Documents/curl-7.43.0/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 libext = a
@@ -444,7 +622,7 @@ man_MANS = curl_easy_cleanup.3 curl_easy_getinfo.3 curl_easy_init.3	 \
  curl_easy_unescape.3 curl_multi_setopt.3 curl_multi_socket.3		 \
  curl_multi_timeout.3 curl_formget.3 curl_multi_assign.3		 \
  curl_easy_pause.3 curl_easy_recv.3 curl_easy_send.3			 \
- curl_multi_socket_action.3 curl_multi_wait.3
+ curl_multi_socket_action.3 curl_multi_wait.3 libcurl-symbols.3
 
 HTMLPAGES = curl_easy_cleanup.html curl_easy_getinfo.html		\
  curl_easy_init.html curl_easy_perform.html curl_easy_setopt.html	\
@@ -464,7 +642,7 @@ HTMLPAGES = curl_easy_cleanup.html curl_easy_getinfo.html		\
  curl_easy_unescape.html curl_multi_setopt.html curl_multi_socket.html	\
  curl_multi_timeout.html curl_formget.html curl_multi_assign.html	\
  curl_easy_pause.html curl_easy_recv.html curl_easy_send.html		\
- curl_multi_socket_action.html curl_multi_wait.html
+ curl_multi_socket_action.html curl_multi_wait.html libcurl-symbols.html
 
 PDFPAGES = curl_easy_cleanup.pdf curl_easy_getinfo.pdf			 \
  curl_easy_init.pdf curl_easy_perform.pdf curl_easy_setopt.pdf		 \
@@ -483,20 +661,27 @@ PDFPAGES = curl_easy_cleanup.pdf curl_easy_getinfo.pdf			 \
  curl_easy_escape.pdf curl_easy_unescape.pdf curl_multi_setopt.pdf	 \
  curl_multi_socket.pdf curl_multi_timeout.pdf curl_formget.pdf		 \
  curl_multi_assign.pdf curl_easy_pause.pdf curl_easy_recv.pdf		 \
- curl_easy_send.pdf curl_multi_socket_action.pdf curl_multi_wait.pdf
+ curl_easy_send.pdf curl_multi_socket_action.pdf curl_multi_wait.pdf     \
+ libcurl-symbols.pdf
 
 m4macrodir = $(datadir)/aclocal
 dist_m4macro_DATA = libcurl.m4
-CLEANFILES = $(HTMLPAGES) $(PDFPAGES)
+CLEANFILES = $(HTMLPAGES) $(PDFPAGES) $(TESTS) libcurl-symbols.3
 EXTRA_DIST = $(man_MANS) $(HTMLPAGES) index.html $(PDFPAGES) ABI \
-  symbols-in-versions symbols.pl
+  symbols-in-versions symbols.pl mksymbolsmanpage.pl
 
 MAN2HTML = roffit --mandir=. < $< >$@
 SUFFIXES = .3 .html
+
+# Make sure each option man page is referenced in the main man page
+TESTS = check-easy check-multi
+LOG_COMPILER = $(PERL)
+# The test fails if the log file contains any text
+AM_LOG_FLAGS = -p -e 'die "$$_" if ($$_);'
 all: all-recursive
 
 .SUFFIXES:
-.SUFFIXES: .3 .html .pdf
+.SUFFIXES: .3 .html .log .pdf .test .test$(EXEEXT) .trs
 $(srcdir)/Makefile.in: # $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
@@ -697,6 +882,176 @@ cscopelist-am: $(am__tagged_files)
 distclean-tags:
 	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH tags
 
+# Recover from deleted '.trs' file; this should ensure that
+# "rm -f foo.log; make foo.trs" re-run 'foo.test', and re-create
+# both 'foo.log' and 'foo.trs'.  Break the recipe in two subshells
+# to avoid problems with "make -n".
+.log.trs:
+	rm -f $< $@
+	$(MAKE) $(AM_MAKEFLAGS) $<
+
+# Leading 'am--fnord' is there to ensure the list of targets does not
+# expand to empty, as could happen e.g. with make check TESTS=''.
+am--fnord $(TEST_LOGS) $(TEST_LOGS:.log=.trs): $(am__force_recheck)
+am--force-recheck:
+	@:
+
+$(TEST_SUITE_LOG): $(TEST_LOGS)
+	@$(am__set_TESTS_bases); \
+	am__f_ok () { test -f "$$1" && test -r "$$1"; }; \
+	redo_bases=`for i in $$bases; do \
+	              am__f_ok $$i.trs && am__f_ok $$i.log || echo $$i; \
+	            done`; \
+	if test -n "$$redo_bases"; then \
+	  redo_logs=`for i in $$redo_bases; do echo $$i.log; done`; \
+	  redo_results=`for i in $$redo_bases; do echo $$i.trs; done`; \
+	  if $(am__make_dryrun); then :; else \
+	    rm -f $$redo_logs && rm -f $$redo_results || exit 1; \
+	  fi; \
+	fi; \
+	if test -n "$$am__remaking_logs"; then \
+	  echo "fatal: making $(TEST_SUITE_LOG): possible infinite" \
+	       "recursion detected" >&2; \
+	else \
+	  am__remaking_logs=yes $(MAKE) $(AM_MAKEFLAGS) $$redo_logs; \
+	fi; \
+	if $(am__make_dryrun); then :; else \
+	  st=0;  \
+	  errmsg="fatal: making $(TEST_SUITE_LOG): failed to create"; \
+	  for i in $$redo_bases; do \
+	    test -f $$i.trs && test -r $$i.trs \
+	      || { echo "$$errmsg $$i.trs" >&2; st=1; }; \
+	    test -f $$i.log && test -r $$i.log \
+	      || { echo "$$errmsg $$i.log" >&2; st=1; }; \
+	  done; \
+	  test $$st -eq 0 || exit 1; \
+	fi
+	@$(am__sh_e_setup); $(am__tty_colors); $(am__set_TESTS_bases); \
+	ws='[ 	]'; \
+	results=`for b in $$bases; do echo $$b.trs; done`; \
+	test -n "$$results" || results=/dev/null; \
+	all=`  grep "^$$ws*:test-result:"           $$results | wc -l`; \
+	pass=` grep "^$$ws*:test-result:$$ws*PASS"  $$results | wc -l`; \
+	fail=` grep "^$$ws*:test-result:$$ws*FAIL"  $$results | wc -l`; \
+	skip=` grep "^$$ws*:test-result:$$ws*SKIP"  $$results | wc -l`; \
+	xfail=`grep "^$$ws*:test-result:$$ws*XFAIL" $$results | wc -l`; \
+	xpass=`grep "^$$ws*:test-result:$$ws*XPASS" $$results | wc -l`; \
+	error=`grep "^$$ws*:test-result:$$ws*ERROR" $$results | wc -l`; \
+	if test `expr $$fail + $$xpass + $$error` -eq 0; then \
+	  success=true; \
+	else \
+	  success=false; \
+	fi; \
+	br='==================='; br=$$br$$br$$br$$br; \
+	result_count () \
+	{ \
+	    if test x"$$1" = x"--maybe-color"; then \
+	      maybe_colorize=yes; \
+	    elif test x"$$1" = x"--no-color"; then \
+	      maybe_colorize=no; \
+	    else \
+	      echo "$@: invalid 'result_count' usage" >&2; exit 4; \
+	    fi; \
+	    shift; \
+	    desc=$$1 count=$$2; \
+	    if test $$maybe_colorize = yes && test $$count -gt 0; then \
+	      color_start=$$3 color_end=$$std; \
+	    else \
+	      color_start= color_end=; \
+	    fi; \
+	    echo "$${color_start}# $$desc $$count$${color_end}"; \
+	}; \
+	create_testsuite_report () \
+	{ \
+	  result_count $$1 "TOTAL:" $$all   "$$brg"; \
+	  result_count $$1 "PASS: " $$pass  "$$grn"; \
+	  result_count $$1 "SKIP: " $$skip  "$$blu"; \
+	  result_count $$1 "XFAIL:" $$xfail "$$lgn"; \
+	  result_count $$1 "FAIL: " $$fail  "$$red"; \
+	  result_count $$1 "XPASS:" $$xpass "$$red"; \
+	  result_count $$1 "ERROR:" $$error "$$mgn"; \
+	}; \
+	{								\
+	  echo "$(PACKAGE_STRING): $(subdir)/$(TEST_SUITE_LOG)" |	\
+	    $(am__rst_title);						\
+	  create_testsuite_report --no-color;				\
+	  echo;								\
+	  echo ".. contents:: :depth: 2";				\
+	  echo;								\
+	  for b in $$bases; do echo $$b; done				\
+	    | $(am__create_global_log);					\
+	} >$(TEST_SUITE_LOG).tmp || exit 1;				\
+	mv $(TEST_SUITE_LOG).tmp $(TEST_SUITE_LOG);			\
+	if $$success; then						\
+	  col="$$grn";							\
+	 else								\
+	  col="$$red";							\
+	  test x"$$VERBOSE" = x || cat $(TEST_SUITE_LOG);		\
+	fi;								\
+	echo "$${col}$$br$${std}"; 					\
+	echo "$${col}Testsuite summary for $(PACKAGE_STRING)$${std}";	\
+	echo "$${col}$$br$${std}"; 					\
+	create_testsuite_report --maybe-color;				\
+	echo "$$col$$br$$std";						\
+	if $$success; then :; else					\
+	  echo "$${col}See $(subdir)/$(TEST_SUITE_LOG)$${std}";		\
+	  if test -n "$(PACKAGE_BUGREPORT)"; then			\
+	    echo "$${col}Please report to $(PACKAGE_BUGREPORT)$${std}";	\
+	  fi;								\
+	  echo "$$col$$br$$std";					\
+	fi;								\
+	$$success || exit 1
+
+check-TESTS:
+	@list='$(RECHECK_LOGS)';           test -z "$$list" || rm -f $$list
+	@list='$(RECHECK_LOGS:.log=.trs)'; test -z "$$list" || rm -f $$list
+	@test -z "$(TEST_SUITE_LOG)" || rm -f $(TEST_SUITE_LOG)
+	@set +e; $(am__set_TESTS_bases); \
+	log_list=`for i in $$bases; do echo $$i.log; done`; \
+	trs_list=`for i in $$bases; do echo $$i.trs; done`; \
+	log_list=`echo $$log_list`; trs_list=`echo $$trs_list`; \
+	$(MAKE) $(AM_MAKEFLAGS) $(TEST_SUITE_LOG) TEST_LOGS="$$log_list"; \
+	exit $$?;
+recheck: all 
+	@test -z "$(TEST_SUITE_LOG)" || rm -f $(TEST_SUITE_LOG)
+	@set +e; $(am__set_TESTS_bases); \
+	bases=`for i in $$bases; do echo $$i; done \
+	         | $(am__list_recheck_tests)` || exit 1; \
+	log_list=`for i in $$bases; do echo $$i.log; done`; \
+	log_list=`echo $$log_list`; \
+	$(MAKE) $(AM_MAKEFLAGS) $(TEST_SUITE_LOG) \
+	        am__force_recheck=am--force-recheck \
+	        TEST_LOGS="$$log_list"; \
+	exit $$?
+check-easy.log: check-easy
+	@p='check-easy'; \
+	b='check-easy'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+check-multi.log: check-multi
+	@p='check-multi'; \
+	b='check-multi'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+.test.log:
+	@p='$<'; \
+	$(am__set_b); \
+	$(am__check_pre) $(TEST_LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_TEST_LOG_DRIVER_FLAGS) $(TEST_LOG_DRIVER_FLAGS) -- $(TEST_LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+#.test$(EXEEXT).log:
+#	@p='$<'; \
+#	$(am__set_b); \
+#	$(am__check_pre) $(TEST_LOG_DRIVER) --test-name "$$f" \
+#	--log-file $$b.log --trs-file $$b.trs \
+#	$(am__common_driver_flags) $(AM_TEST_LOG_DRIVER_FLAGS) $(TEST_LOG_DRIVER_FLAGS) -- $(TEST_LOG_COMPILE) \
+#	"$$tst" $(AM_TESTS_FD_REDIRECT)
+
 distdir: $(DISTFILES)
 	@srcdirstrip=`echo "$(srcdir)" | sed 's/[].[^$$\\*]/\\\\&/g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's/[].[^$$\\*]/\\\\&/g'`; \
@@ -753,6 +1108,7 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 check-am: all-am
+	$(MAKE) $(AM_MAKEFLAGS) check-TESTS
 check: check-recursive
 all-am: Makefile $(MANS) $(DATA)
 installdirs: installdirs-recursive
@@ -780,6 +1136,9 @@ install-strip:
 	    "INSTALL_PROGRAM_ENV=STRIPPROG='$(STRIP)'" install; \
 	fi
 mostlyclean-generic:
+	-test -z "$(TEST_LOGS)" || rm -f $(TEST_LOGS)
+	-test -z "$(TEST_LOGS:.log=.trs)" || rm -f $(TEST_LOGS:.log=.trs)
+	-test -z "$(TEST_SUITE_LOG)" || rm -f $(TEST_SUITE_LOG)
 
 clean-generic:
 	-test -z "$(CLEANFILES)" || rm -f $(CLEANFILES)
@@ -855,23 +1214,27 @@ uninstall-am: uninstall-dist_m4macroDATA uninstall-man
 
 uninstall-man: uninstall-man3
 
-.MAKE: $(am__recursive_targets) install-am install-strip
+.MAKE: $(am__recursive_targets) check-am install-am install-strip
 
 .PHONY: $(am__recursive_targets) CTAGS GTAGS TAGS all all-am check \
-	check-am clean clean-generic clean-libtool cscopelist-am ctags \
-	ctags-am distclean distclean-generic distclean-libtool \
-	distclean-tags distdir dvi dvi-am html html-am info info-am \
-	install install-am install-data install-data-am \
-	install-dist_m4macroDATA install-dvi install-dvi-am \
-	install-exec install-exec-am install-html install-html-am \
-	install-info install-info-am install-man install-man3 \
-	install-pdf install-pdf-am install-ps install-ps-am \
-	install-strip installcheck installcheck-am installdirs \
-	installdirs-am maintainer-clean maintainer-clean-generic \
-	mostlyclean mostlyclean-generic mostlyclean-libtool pdf pdf-am \
-	ps ps-am tags tags-am uninstall uninstall-am \
-	uninstall-dist_m4macroDATA uninstall-man uninstall-man3
+	check-TESTS check-am clean clean-generic clean-libtool \
+	cscopelist-am ctags ctags-am distclean distclean-generic \
+	distclean-libtool distclean-tags distdir dvi dvi-am html \
+	html-am info info-am install install-am install-data \
+	install-data-am install-dist_m4macroDATA install-dvi \
+	install-dvi-am install-exec install-exec-am install-html \
+	install-html-am install-info install-info-am install-man \
+	install-man3 install-pdf install-pdf-am install-ps \
+	install-ps-am install-strip installcheck installcheck-am \
+	installdirs installdirs-am maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-generic \
+	mostlyclean-libtool pdf pdf-am ps ps-am recheck tags tags-am \
+	uninstall uninstall-am uninstall-dist_m4macroDATA \
+	uninstall-man uninstall-man3
 
+
+libcurl-symbols.3: $(srcdir)/symbols-in-versions $(srcdir)/mksymbolsmanpage.pl
+	perl $(srcdir)/mksymbolsmanpage.pl < $(srcdir)/symbols-in-versions > $@
 
 html: $(HTMLPAGES)
 	cd opts; make html
@@ -888,6 +1251,14 @@ pdf: $(PDFPAGES)
 	ps2pdf $$foo.ps $@; \
 	rm $$foo.ps; \
 	echo "converted $< to $@")
+
+check-easy: $(srcdir)/curl_easy_setopt.3 $(srcdir)/opts/CURLOPT*.3
+	OPTS="$$(ls $(srcdir)/opts/CURLOPT*.3 | $(SED) -e 's,^.*/,,' -e 's,\.3$$,,')" && \
+	for opt in $$OPTS; do grep "^\.IP $$opt$$" $(srcdir)/curl_easy_setopt.3 >/dev/null || echo Missing $$opt; done > $@
+
+check-multi: $(srcdir)/curl_multi_setopt.3 $(srcdir)/opts/CURLMOPT*.3
+	OPTS="$$(ls $(srcdir)/opts/CURLMOPT*.3 | $(SED) -e 's,^.*/,,' -e 's,\.3$$,,')" && \
+	for opt in $$OPTS; do grep "^\.IP $$opt$$" $(srcdir)/curl_multi_setopt.3 >/dev/null || echo Missing $$opt; done > $@
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

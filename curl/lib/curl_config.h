@@ -49,6 +49,9 @@
 /* to disable RTSP */
 #define CURL_DISABLE_RTSP 1
 
+/* to disable SMB/CIFS */
+/* #undef CURL_DISABLE_SMB */
+
 /* to disable SMTP */
 #define CURL_DISABLE_SMTP 1
 
@@ -65,10 +68,7 @@
 /* #undef CURL_DISABLE_VERBOSE_STRINGS */
 
 /* Definition to make a library symbol externally visible. */
-/* #undef CURL_EXTERN_SYMBOL */
-
-/* Use Windows LDAP implementation */
-/* #undef CURL_LDAP_WIN */
+#define CURL_EXTERN_SYMBOL __attribute__ ((__visibility__ ("default")))
 
 /* your Entropy Gathering Daemon socket pathname */
 /* #undef EGD_SOCKET */
@@ -121,6 +121,9 @@
 /* Define to 1 if bool is an available type. */
 #define HAVE_BOOL_T 1
 
+/* Define to 1 if using BoringSSL. */
+/* #undef HAVE_BORINGSSL */
+
 /* Define to 1 if you have the clock_gettime function and monotonic timer. */
 #define HAVE_CLOCK_GETTIME_MONOTONIC 1
 
@@ -134,7 +137,7 @@
 #define HAVE_CONNECT 1
 
 /* Define to 1 if you have the `CRYPTO_cleanup_all_ex_data' function. */
-#define HAVE_CRYPTO_CLEANUP_ALL_EX_DATA 1
+/* #undef HAVE_CRYPTO_CLEANUP_ALL_EX_DATA */
 
 /* Define to 1 if you have the <crypto.h> header file. */
 /* #undef HAVE_CRYPTO_H */
@@ -142,11 +145,17 @@
 /* Define to 1 if you have the <cyassl/error-ssl.h> header file. */
 /* #undef HAVE_CYASSL_ERROR_SSL_H */
 
+/* Define to 1 if you have the <cyassl/options.h> header file. */
+/* #undef HAVE_CYASSL_OPTIONS_H */
+
+/* Define to 1 if you have the `DES_set_odd_parity' function. */
+/* #undef HAVE_DES_SET_ODD_PARITY */
+
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #define HAVE_DLFCN_H 1
 
 /* Define to 1 if you have the `ENGINE_cleanup' function. */
-#define HAVE_ENGINE_CLEANUP 1
+/* #undef HAVE_ENGINE_CLEANUP */
 
 /* Define to 1 if you have the `ENGINE_load_builtin_engines' function. */
 /* #undef HAVE_ENGINE_LOAD_BUILTIN_ENGINES */
@@ -179,10 +188,10 @@
 /* #undef HAVE_FREEIFADDRS */
 
 /* Define to 1 if you have the fsetxattr function. */
-/* #undef HAVE_FSETXATTR */
+#define HAVE_FSETXATTR 1
 
 /* fsetxattr() takes 5 args */
-/* #undef HAVE_FSETXATTR_5 */
+#define HAVE_FSETXATTR_5 1
 
 /* fsetxattr() takes 6 args */
 /* #undef HAVE_FSETXATTR_6 */
@@ -254,7 +263,7 @@
 #define HAVE_GETPWUID 1
 
 /* Define to 1 if you have the `getpwuid_r' function. */
-/* #undef HAVE_GETPWUID_R */
+#define HAVE_GETPWUID_R 1
 
 /* Define to 1 if you have the `getrlimit' function. */
 #define HAVE_GETRLIMIT 1
@@ -386,32 +395,20 @@
 /* Define to 1 if you have the `resolve' library (-lresolve). */
 /* #undef HAVE_LIBRESOLVE */
 
+/* Define to 1 if using libressl. */
+/* #undef HAVE_LIBRESSL */
+
 /* Define to 1 if you have the <librtmp/rtmp.h> header file. */
 /* #undef HAVE_LIBRTMP_RTMP_H */
 
 /* Define to 1 if you have the `ssh2' library (-lssh2). */
 /* #undef HAVE_LIBSSH2 */
 
-/* Define to 1 if you have the `libssh2_exit' function. */
-/* #undef HAVE_LIBSSH2_EXIT */
-
 /* Define to 1 if you have the <libssh2.h> header file. */
 /* #undef HAVE_LIBSSH2_H */
 
-/* Define to 1 if you have the `libssh2_init' function. */
-/* #undef HAVE_LIBSSH2_INIT */
-
-/* Define to 1 if you have the `libssh2_scp_send64' function. */
-/* #undef HAVE_LIBSSH2_SCP_SEND64 */
-
-/* Define to 1 if you have the `libssh2_session_handshake' function. */
-/* #undef HAVE_LIBSSH2_SESSION_HANDSHAKE */
-
-/* Define to 1 if you have the `libssh2_version' function. */
-/* #undef HAVE_LIBSSH2_VERSION */
-
 /* Define to 1 if you have the `ssl' library (-lssl). */
-#define HAVE_LIBSSL 1
+/* #undef HAVE_LIBSSL */
 
 /* if zlib is available */
 #define HAVE_LIBZ 1
@@ -466,28 +463,31 @@
 /* #undef HAVE_OLD_GSSMIT */
 
 /* Define to 1 if you have the <openssl/crypto.h> header file. */
-#define HAVE_OPENSSL_CRYPTO_H 1
+/* #undef HAVE_OPENSSL_CRYPTO_H */
 
 /* Define to 1 if you have the <openssl/engine.h> header file. */
-#define HAVE_OPENSSL_ENGINE_H 1
+/* #undef HAVE_OPENSSL_ENGINE_H */
 
 /* Define to 1 if you have the <openssl/err.h> header file. */
-#define HAVE_OPENSSL_ERR_H 1
+/* #undef HAVE_OPENSSL_ERR_H */
 
 /* Define to 1 if you have the <openssl/pem.h> header file. */
-#define HAVE_OPENSSL_PEM_H 1
+/* #undef HAVE_OPENSSL_PEM_H */
 
 /* Define to 1 if you have the <openssl/pkcs12.h> header file. */
-#define HAVE_OPENSSL_PKCS12_H 1
+/* #undef HAVE_OPENSSL_PKCS12_H */
 
 /* Define to 1 if you have the <openssl/rsa.h> header file. */
-#define HAVE_OPENSSL_RSA_H 1
+/* #undef HAVE_OPENSSL_RSA_H */
+
+/* if you have the function SRP_Calc_client_key */
+/* #undef HAVE_OPENSSL_SRP */
 
 /* Define to 1 if you have the <openssl/ssl.h> header file. */
-#define HAVE_OPENSSL_SSL_H 1
+/* #undef HAVE_OPENSSL_SSL_H */
 
 /* Define to 1 if you have the <openssl/x509.h> header file. */
-#define HAVE_OPENSSL_X509_H 1
+/* #undef HAVE_OPENSSL_X509_H */
 
 /* Define to 1 if you have the <pem.h> header file. */
 /* #undef HAVE_PEM_H */
@@ -517,13 +517,13 @@
 #define HAVE_PWD_H 1
 
 /* Define to 1 if you have the `RAND_egd' function. */
-#define HAVE_RAND_EGD 1
+/* #undef HAVE_RAND_EGD */
 
 /* Define to 1 if you have the `RAND_screen' function. */
 /* #undef HAVE_RAND_SCREEN */
 
 /* Define to 1 if you have the `RAND_status' function. */
-#define HAVE_RAND_STATUS 1
+/* #undef HAVE_RAND_STATUS */
 
 /* Define to 1 if you have the recv function. */
 #define HAVE_RECV 1
@@ -565,7 +565,7 @@
 #define HAVE_SIGINTERRUPT 1
 
 /* Define to 1 if you have the signal function. */
-/* #undef HAVE_SIGNAL */
+#define HAVE_SIGNAL 1
 
 /* Define to 1 if you have the <signal.h> header file. */
 #define HAVE_SIGNAL_H 1
@@ -591,23 +591,11 @@
 /* Define to 1 if you have the <socket.h> header file. */
 /* #undef HAVE_SOCKET_H */
 
-/* if you have the function SRP_Calc_client_key */
-#define HAVE_SSLEAY_SRP 1
-
 /* Define to 1 if you have the `SSLv2_client_method' function. */
-#define HAVE_SSLV2_CLIENT_METHOD 1
-
-/* Define to 1 if you have the `SSL_CTX_set_alpn_protos' function. */
-#define HAVE_SSL_CTX_SET_ALPN_PROTOS 1
-
-/* Define to 1 if you have the `SSL_CTX_set_alpn_select_cb' function. */
-#define HAVE_SSL_CTX_SET_ALPN_SELECT_CB 1
-
-/* Define to 1 if you have the `SSL_CTX_set_next_proto_select_cb' function. */
-#define HAVE_SSL_CTX_SET_NEXT_PROTO_SELECT_CB 1
+/* #undef HAVE_SSLV2_CLIENT_METHOD */
 
 /* Define to 1 if you have the `SSL_get_shutdown' function. */
-#define HAVE_SSL_GET_SHUTDOWN 1
+/* #undef HAVE_SSL_GET_SHUTDOWN */
 
 /* Define to 1 if you have the <ssl.h> header file. */
 /* #undef HAVE_SSL_H */
@@ -718,7 +706,7 @@
 #define HAVE_SYS_WAIT_H 1
 
 /* Define to 1 if you have the <sys/xattr.h> header file. */
-/* #undef HAVE_SYS_XATTR_H */
+#define HAVE_SYS_XATTR_H 1
 
 /* Define to 1 if you have the <termios.h> header file. */
 #define HAVE_TERMIOS_H 1
@@ -803,10 +791,10 @@
 /* #undef NEED_THREAD_SAFE */
 
 /* Define to enable NTLM delegation to winbind's ntlm_auth helper. */
-#define NTLM_WB_ENABLED 1
+/* #undef NTLM_WB_ENABLED */
 
 /* Define absolute filename for winbind's ntlm_auth helper. */
-#define NTLM_WB_FILE "/usr/bin/ntlm_auth"
+/* #undef NTLM_WB_FILE */
 
 /* cpu-machine-OS */
 #define OS "arm-unknown-linux-androideabi"
@@ -845,7 +833,7 @@
 #define RECV_TYPE_ARG3 size_t
 
 /* Define to the type of arg 4 for recv. */
-#define RECV_TYPE_ARG4 unsigned int
+#define RECV_TYPE_ARG4 int
 
 /* Define to the function return type for recv. */
 #define RECV_TYPE_RETV int
@@ -881,7 +869,7 @@
 #define SEND_TYPE_ARG3 size_t
 
 /* Define to the type of arg 4 for send. */
-#define SEND_TYPE_ARG4 unsigned int
+#define SEND_TYPE_ARG4 int
 
 /* Define to the function return type for send. */
 #define SEND_TYPE_RETV int
@@ -959,7 +947,7 @@
 /* #undef USE_OPENLDAP */
 
 /* if OpenSSL is in use */
-#define USE_OPENSSL 1
+/* #undef USE_OPENSSL */
 
 /* if PolarSSL is enabled */
 /* #undef USE_POLARSSL */
@@ -967,14 +955,14 @@
 /* to enable Windows native SSL/TLS support */
 /* #undef USE_SCHANNEL */
 
-/* if SSL is enabled */
-#define USE_SSLEAY 1
-
 /* if you want POSIX threaded DNS lookup */
 /* #undef USE_THREADS_POSIX */
 
 /* Use TLS-SRP authentication */
-#define USE_TLS_SRP 1
+/* #undef USE_TLS_SRP */
+
+/* Use Unix domain sockets */
+#define USE_UNIX_SOCKETS 1
 
 /* Define to 1 if you have the `normaliz' (WinIDN) library (-lnormaliz). */
 /* #undef USE_WIN32_IDN */
@@ -983,15 +971,15 @@
    */
 /* #undef USE_WIN32_LARGE_FILES */
 
+/* Use Windows LDAP implementation */
+/* #undef USE_WIN32_LDAP */
+
 /* Define to 1 if you are building a Windows target without large file
    support. */
 /* #undef USE_WIN32_SMALL_FILES */
 
 /* to enable SSPI support */
 /* #undef USE_WINDOWS_SSPI */
-
-/* Define to 1 if using yaSSL in OpenSSL compatibility mode. */
-/* #undef USE_YASSLEMUL */
 
 /* Version number of package */
 #define VERSION "-"

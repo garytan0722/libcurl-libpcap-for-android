@@ -269,7 +269,6 @@ reflect:
 	@[ -n "$(THIS)" ] && $(CLEARENV) && $(MAKE) $(THIS) -e $(BUILDENV)
 
 sub_all: build_all
-
 build_all: build_libs build_apps build_tests build_tools
 
 build_libs: build_libcrypto build_libssl openssl.pc
@@ -279,15 +278,15 @@ build_libssl: build_ssl libssl.pc
 
 build_crypto:
 	@dir=crypto; target=all; $(BUILD_ONE_CMD)
-build_ssl: build_crypto
+build_ssl:
 	@dir=ssl; target=all; $(BUILD_ONE_CMD)
-build_engines: build_crypto
+build_engines:
 	@dir=engines; target=all; $(BUILD_ONE_CMD)
-build_apps: build_libs
+build_apps:
 	@dir=apps; target=all; $(BUILD_ONE_CMD)
-build_tests: build_libs
+build_tests:
 	@dir=test; target=all; $(BUILD_ONE_CMD)
-build_tools: build_libs
+build_tools:
 	@dir=tools; target=all; $(BUILD_ONE_CMD)
 
 all_testapps: build_libs build_testapps

@@ -91,8 +91,7 @@ host_triplet = arm-unknown-linux-androideabi
 bin_PROGRAMS = curl$(EXEEXT)
 am__append_1 = -DCURL_STATICLIB
 DIST_COMMON = $(srcdir)/Makefile.inc $(srcdir)/Makefile.in \
-	$(srcdir)/Makefile.am $(top_srcdir)/mkinstalldirs \
-	$(top_srcdir)/depcomp
+	$(srcdir)/Makefile.am $(top_srcdir)/depcomp
 subdir = src
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/curl-compilers.m4 \
@@ -114,7 +113,7 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/curl-compilers.m4 \
 	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
-mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/lib/curl_config.h \
 	$(top_builddir)/include/curl/curlbuild.h
 CONFIG_CLEAN_FILES =
@@ -129,9 +128,9 @@ am__libcurltool_la_SOURCES_DIST = tool_binmode.c tool_bname.c \
 	tool_homedir.c tool_hugehelp.c tool_libinfo.c tool_main.c \
 	tool_metalink.c tool_mfiles.c tool_msgs.c tool_operate.c \
 	tool_operhlp.c tool_panykey.c tool_paramhlp.c tool_parsecfg.c \
-	tool_setopt.c tool_sleep.c tool_urlglob.c tool_util.c \
-	tool_vms.c tool_writeenv.c tool_writeout.c tool_xattr.c \
-	../lib/strtoofft.c ../lib/strdup.c ../lib/rawstr.c \
+	tool_strdup.c tool_setopt.c tool_sleep.c tool_urlglob.c \
+	tool_util.c tool_vms.c tool_writeenv.c tool_writeout.c \
+	tool_xattr.c ../lib/strtoofft.c ../lib/rawstr.c \
 	../lib/nonblock.c ../lib/warnless.c tool_binmode.h \
 	tool_bname.h tool_cb_dbg.h tool_cb_hdr.h tool_cb_prg.h \
 	tool_cb_rea.h tool_cb_see.h tool_cb_wrt.h tool_cfgable.h \
@@ -141,8 +140,9 @@ am__libcurltool_la_SOURCES_DIST = tool_binmode.c tool_bname.c \
 	tool_main.h tool_metalink.h tool_mfiles.h tool_msgs.h \
 	tool_operate.h tool_operhlp.h tool_panykey.h tool_paramhlp.h \
 	tool_parsecfg.h tool_sdecls.h tool_setopt.h tool_setup.h \
-	tool_sleep.h tool_urlglob.h tool_util.h tool_version.h \
-	tool_vms.h tool_writeenv.h tool_writeout.h tool_xattr.h
+	tool_sleep.h tool_strdup.h tool_urlglob.h tool_util.h \
+	tool_version.h tool_vms.h tool_writeenv.h tool_writeout.h \
+	tool_xattr.h
 am__objects_1 = libcurltool_la-tool_binmode.lo \
 	libcurltool_la-tool_bname.lo libcurltool_la-tool_cb_dbg.lo \
 	libcurltool_la-tool_cb_hdr.lo libcurltool_la-tool_cb_prg.lo \
@@ -159,14 +159,13 @@ am__objects_1 = libcurltool_la-tool_binmode.lo \
 	libcurltool_la-tool_msgs.lo libcurltool_la-tool_operate.lo \
 	libcurltool_la-tool_operhlp.lo libcurltool_la-tool_panykey.lo \
 	libcurltool_la-tool_paramhlp.lo \
-	libcurltool_la-tool_parsecfg.lo libcurltool_la-tool_setopt.lo \
-	libcurltool_la-tool_sleep.lo libcurltool_la-tool_urlglob.lo \
-	libcurltool_la-tool_util.lo libcurltool_la-tool_vms.lo \
-	libcurltool_la-tool_writeenv.lo \
+	libcurltool_la-tool_parsecfg.lo libcurltool_la-tool_strdup.lo \
+	libcurltool_la-tool_setopt.lo libcurltool_la-tool_sleep.lo \
+	libcurltool_la-tool_urlglob.lo libcurltool_la-tool_util.lo \
+	libcurltool_la-tool_vms.lo libcurltool_la-tool_writeenv.lo \
 	libcurltool_la-tool_writeout.lo libcurltool_la-tool_xattr.lo
 am__dirstamp = $(am__leading_dot)dirstamp
 am__objects_2 = ../lib/libcurltool_la-strtoofft.lo \
-	../lib/libcurltool_la-strdup.lo \
 	../lib/libcurltool_la-rawstr.lo \
 	../lib/libcurltool_la-nonblock.lo \
 	../lib/libcurltool_la-warnless.lo
@@ -200,13 +199,14 @@ am__objects_5 = curl-tool_binmode.$(OBJEXT) curl-tool_bname.$(OBJEXT) \
 	curl-tool_msgs.$(OBJEXT) curl-tool_operate.$(OBJEXT) \
 	curl-tool_operhlp.$(OBJEXT) curl-tool_panykey.$(OBJEXT) \
 	curl-tool_paramhlp.$(OBJEXT) curl-tool_parsecfg.$(OBJEXT) \
-	curl-tool_setopt.$(OBJEXT) curl-tool_sleep.$(OBJEXT) \
-	curl-tool_urlglob.$(OBJEXT) curl-tool_util.$(OBJEXT) \
-	curl-tool_vms.$(OBJEXT) curl-tool_writeenv.$(OBJEXT) \
-	curl-tool_writeout.$(OBJEXT) curl-tool_xattr.$(OBJEXT)
+	curl-tool_strdup.$(OBJEXT) curl-tool_setopt.$(OBJEXT) \
+	curl-tool_sleep.$(OBJEXT) curl-tool_urlglob.$(OBJEXT) \
+	curl-tool_util.$(OBJEXT) curl-tool_vms.$(OBJEXT) \
+	curl-tool_writeenv.$(OBJEXT) curl-tool_writeout.$(OBJEXT) \
+	curl-tool_xattr.$(OBJEXT)
 am__objects_6 = ../lib/curl-strtoofft.$(OBJEXT) \
-	../lib/curl-strdup.$(OBJEXT) ../lib/curl-rawstr.$(OBJEXT) \
-	../lib/curl-nonblock.$(OBJEXT) ../lib/curl-warnless.$(OBJEXT)
+	../lib/curl-rawstr.$(OBJEXT) ../lib/curl-nonblock.$(OBJEXT) \
+	../lib/curl-warnless.$(OBJEXT)
 am_curl_OBJECTS = $(am__objects_5) $(am__objects_6) $(am__objects_3)
 curl_OBJECTS = $(am_curl_OBJECTS)
 curl_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
@@ -273,27 +273,27 @@ am__define_uniq_tagged_files = \
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-ACLOCAL = ${SHELL} "/Android/curl-7.38.0/missing" --run aclocal-1.14
+ACLOCAL = ${SHELL} /Users/garytan/Documents/curl-7.43.0/missing aclocal-1.14
 AMTAR = $${TAR-tar}
 AM_DEFAULT_VERBOSITY = 1
 AR = arm-linux-androideabi-ar
 AS = arm-linux-androideabi-as
-AUTOCONF = ${SHELL} "/Android/curl-7.38.0/missing" --run autoconf
-AUTOHEADER = ${SHELL} "/Android/curl-7.38.0/missing" --run autoheader
-AUTOMAKE = ${SHELL} "/Android/curl-7.38.0/missing" --run automake-1.14
-AWK = mawk
+AUTOCONF = ${SHELL} /Users/garytan/Documents/curl-7.43.0/missing autoconf
+AUTOHEADER = ${SHELL} /Users/garytan/Documents/curl-7.43.0/missing autoheader
+AUTOMAKE = ${SHELL} /Users/garytan/Documents/curl-7.43.0/missing automake-1.14
+AWK = awk
 BLANK_AT_MAKETIME = 
-CC = /Android/toolchain-arm/bin/arm-linux-androideabi-gcc
+CC = arm-linux-androideabi-gcc
 CCDEPMODE = depmode=none
 
 # This might hold -Werror
-CFLAGS = -v -DANDROID --sysroot=/Android/toolchain-arm/sysroot -mandroid -march=armv7 -mfloat-abi=softfp -mfpu=vfp -mthumb -DCURL_STATICLIB -O2 -Wno-system-headers 
-CFLAG_CURL_SYMBOL_HIDING = 
-CONFIGURE_OPTIONS = " '--host=arm-linux-androideabi' '--disable-shared' '--enable-static' '--disable-dependency-tracking' '--with-zlib=/Android/zlib' '--with-ssl=/Android/openssl-1.0.2d' '--without-ca-bundle' '--without-ca-path' '--enable-ipv6' '--enable-http' '--enable-ftp' '--disable-file' '--disable-ldap' '--disable-ldaps' '--disable-rtsp' '--disable-proxy' '--disable-dict' '--disable-telnet' '--disable-tftp' '--disable-pop3' '--disable-imap' '--disable-smtp' '--disable-gopher' '--disable-sspi' '--disable-manual' '--target=arm-linux-androideabi' '--build=x86_64-unknown-linux-gnu' '--prefix=/opt/curlssl' 'build_alias=x86_64-unknown-linux-gnu' 'host_alias=arm-linux-androideabi' 'target_alias=arm-linux-androideabi' 'CC=/Android/toolchain-arm/bin/arm-linux-androideabi-gcc' 'CFLAGS=-v -DANDROID --sysroot=/Android/toolchain-arm/sysroot -mandroid -march=armv7 -mfloat-abi=softfp -mfpu=vfp -mthumb -DCURL_STATICLIB' 'LDFLAGS=-L/Android/toolchain-arm/include -march=armv7 -Wl,--fix-cortex-a8 -L/Android/openssl-1.0.2d' 'CPPFLAGS=-mthumb -mfloat-abi=softfp -mfpu=vfp -march=armv7 -DANDROID-v -DANDROID --sysroot=/Android/toolchain-arm/sysroot -mandroid -march=armv7 -mfloat-abi=softfp -mfpu=vfp -mthumb -DCURL_STATICLIB -L/Android/openssl-1.0.2d/include'"
-CPP = /Android/toolchain-arm/bin/arm-linux-androideabi-gcc -E
-CPPFLAGS = -mthumb -mfloat-abi=softfp -mfpu=vfp -march=armv7 -DANDROID-v -DANDROID --sysroot=/Android/toolchain-arm/sysroot -mandroid -march=armv7 -mfloat-abi=softfp -mfpu=vfp -mthumb -DCURL_STATICLIB -L/Android/openssl-1.0.2d/include -I/Android/zlib/include -I/Android/openssl-1.0.2d/include -I/Android/openssl-1.0.2d/include/openssl
+CFLAGS = -O2 -Wno-system-headers 
+CFLAG_CURL_SYMBOL_HIDING = -fvisibility=hidden
+CONFIGURE_OPTIONS = " '--host=arm-linux-androideabi' '--disable-shared' '--enable-static' '--disable-dependency-tracking' '--with-zlib=/Users/garytan/Documents/zlib' '--with-ssl=/Users/garytan/Documents/openssl-1.0.2c' '--without-ca-bundle' '--without-ca-path' '--enable-ipv6' '--enable-http' '--enable-ftp' '--disable-file' '--disable-ldap' '--disable-ldaps' '--disable-rtsp' '--disable-proxy' '--disable-dict' '--disable-telnet' '--disable-tftp' '--disable-pop3' '--disable-imap' '--disable-smtp' '--disable-gopher' '--disable-sspi' '--disable-manual' '--target=arm-linux-androideabi' '--build=x86_64-unknown-linux-gnu' '--prefix=/opt/curlssl' 'build_alias=x86_64-unknown-linux-gnu' 'host_alias=arm-linux-androideabi' 'target_alias=arm-linux-androideabi' 'CC=arm-linux-androideabi-gcc' 'CPPFLAGS=-mthumb -mfloat-abi=softfp -mfpu=vfp -march=armv7  -DANDROID'"
+CPP = arm-linux-androideabi-gcc -E
+CPPFLAGS = -mthumb -mfloat-abi=softfp -mfpu=vfp -march=armv7 -DANDROID -I/Users/garytan/Documents/zlib/include
 CPPFLAG_CURL_STATICLIB = -DCURL_STATICLIB
-CURLVERSION = 7.38.0
+CURLVERSION = 7.43.0
 CURL_CA_BUNDLE = 
 CURL_CFLAG_EXTRAS = 
 CURL_DISABLE_DICT = 1
@@ -307,6 +307,7 @@ CURL_DISABLE_LDAPS = 1
 CURL_DISABLE_POP3 = 1
 CURL_DISABLE_PROXY = 1
 CURL_DISABLE_RTSP = 1
+CURL_DISABLE_SMB = 
 CURL_DISABLE_SMTP = 1
 CURL_DISABLE_TELNET = 1
 CURL_DISABLE_TFTP = 1
@@ -319,19 +320,19 @@ DEPDIR = .deps
 DLLTOOL = false
 DSYMUTIL = 
 DUMPBIN = 
-ECHO_C = 
-ECHO_N = -n
+ECHO_C = \c
+ECHO_N = 
 ECHO_T = 
-EGREP = /bin/grep -E
+EGREP = /usr/bin/grep -E
 ENABLE_SHARED = no
 ENABLE_STATIC = yes
 EXEEXT = 
-FGREP = /bin/grep -F
-GREP = /bin/grep
+FGREP = /usr/bin/grep -F
+GREP = /usr/bin/grep
 HAVE_GNUTLS_SRP = 
 HAVE_LDAP_SSL = 
 HAVE_LIBZ = 1
-HAVE_SSLEAY_SRP = 1
+HAVE_OPENSSL_SRP = 
 IDN_ENABLED = 
 INSTALL = /usr/bin/install -c
 INSTALL_DATA = ${INSTALL} -m 644
@@ -340,8 +341,8 @@ INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
 IPV6_ENABLED = 1
 LD = arm-linux-androideabi-ld
-LDFLAGS = -L/Android/toolchain-arm/include -march=armv7 -Wl,--fix-cortex-a8 -L/Android/openssl-1.0.2d -L/Android/zlib/lib -L/Android/openssl-1.0.2d/lib
-LIBCURL_LIBS = -lssl -lcrypto -lz
+LDFLAGS = -L/Users/garytan/Documents/zlib/lib
+LIBCURL_LIBS = -lz
 LIBMETALINK_CPPFLAGS = 
 LIBMETALINK_LDFLAGS = 
 LIBMETALINK_LIBS = 
@@ -354,10 +355,10 @@ LIPO =
 LN_S = ln -s
 LTLIBOBJS = 
 MAINT = #
-MAKEINFO = ${SHELL} "/Android/curl-7.38.0/missing" --run makeinfo
+MAKEINFO = ${SHELL} /Users/garytan/Documents/curl-7.43.0/missing makeinfo
 MANIFEST_TOOL = :
 MANOPT = -man
-MKDIR_P = /bin/mkdir -p
+MKDIR_P = .././install-sh -c -d
 NM = arm-linux-androideabi-nm
 NMEDIT = 
 # Use the C locale to ensure that only ASCII characters appear in the
@@ -384,13 +385,14 @@ PKGCONFIG = no
 RANDOM_FILE = 
 RANLIB = arm-linux-androideabi-ranlib
 REQUIRE_LIB_DEPS = yes
-SED = /bin/sed
+SED = /usr/bin/sed
 SET_MAKE = 
-SHELL = /bin/bash
-SSL_ENABLED = 1
+SHELL = /bin/sh
+SSL_ENABLED = 
+SSL_LIBS = 
 STRIP = arm-linux-androideabi-strip
-SUPPORT_FEATURES = SSL IPv6 libz NTLM NTLM_WB TLS-SRP
-SUPPORT_PROTOCOLS = FTP FTPS HTTP HTTPS
+SUPPORT_FEATURES = IPv6 UnixSockets libz
+SUPPORT_PROTOCOLS = FTP HTTP
 USE_ARES = 
 USE_AXTLS = 
 USE_CYASSL = 
@@ -404,15 +406,15 @@ USE_NSS =
 USE_OPENLDAP = 
 USE_POLARSSL = 
 USE_SCHANNEL = 
-USE_SSLEAY = 1
+USE_UNIX_SOCKETS = 1
 USE_WINDOWS_SSPI = 
 VERSION = -
-VERSIONNUM = 072600
+VERSIONNUM = 072b00
 ZLIB_LIBS = -lz
-abs_builddir = /Android/curl-7.38.0/src
-abs_srcdir = /Android/curl-7.38.0/src
-abs_top_builddir = /Android/curl-7.38.0
-abs_top_srcdir = /Android/curl-7.38.0
+abs_builddir = /Users/garytan/Documents/curl-7.43.0/src
+abs_srcdir = /Users/garytan/Documents/curl-7.43.0/src
+abs_top_builddir = /Users/garytan/Documents/curl-7.43.0
+abs_top_srcdir = /Users/garytan/Documents/curl-7.43.0
 ac_ct_AR = 
 ac_ct_CC = 
 ac_ct_DUMPBIN = 
@@ -441,7 +443,7 @@ host_vendor = unknown
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = ${SHELL} /Android/curl-7.38.0/install-sh
+install_sh = ${SHELL} /Users/garytan/Documents/curl-7.43.0/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 libext = a
@@ -471,7 +473,7 @@ top_srcdir = ..
 #                            | (__| |_| |  _ <| |___
 #                             \___|\___/|_| \_\_____|
 #
-# Copyright (C) 1998 - 2013, Daniel Stenberg, <daniel@haxx.se>, et al.
+# Copyright (C) 1998 - 2015, Daniel Stenberg, <daniel@haxx.se>, et al.
 #
 # This software is licensed as described in the file COPYING, which
 # you should have received as part of this distribution. The terms
@@ -508,7 +510,6 @@ AM_CPPFLAGS = -I$(top_builddir)/include/curl -I$(top_builddir)/include \
 # the official API, but we re-use the code here to avoid duplication.
 CURLX_CFILES = \
 	../lib/strtoofft.c \
-	../lib/strdup.c \
 	../lib/rawstr.c \
 	../lib/nonblock.c \
 	../lib/warnless.c
@@ -516,7 +517,6 @@ CURLX_CFILES = \
 CURLX_HFILES = \
 	../lib/curl_setup.h \
 	../lib/strtoofft.h \
-	../lib/strdup.h \
 	../lib/rawstr.h \
 	../lib/nonblock.h \
 	../lib/warnless.h
@@ -552,6 +552,7 @@ CURL_CFILES = \
 	tool_panykey.c \
 	tool_paramhlp.c \
 	tool_parsecfg.c \
+	tool_strdup.c \
 	tool_setopt.c \
 	tool_sleep.c \
 	tool_urlglob.c \
@@ -596,6 +597,7 @@ CURL_HFILES = \
 	tool_setopt.h \
 	tool_setup.h \
 	tool_sleep.h \
+	tool_strdup.h \
 	tool_urlglob.h \
 	tool_util.h \
 	tool_version.h \
@@ -606,8 +608,8 @@ CURL_HFILES = \
 
 CURL_RCFILES = curl.rc
 curl_SOURCES = $(CURL_CFILES) $(CURLX_CFILES) $(CURL_HFILES)
-#curl_LDADD = $(top_builddir)/lib/libcurl.la   -lz 
-curl_LDADD = $(top_builddir)/lib/libcurl.la  -lssl -lcrypto -lz
+#curl_LDADD = $(top_builddir)/lib/libcurl.la    -lz 
+curl_LDADD = $(top_builddir)/lib/libcurl.la  -lz
 curl_LDFLAGS = 
 curl_CPPFLAGS = $(AM_CPPFLAGS) $(LIBMETALINK_CPPFLAGS)
 curl_DEPENDENCIES = $(top_builddir)/lib/libcurl.la
@@ -620,11 +622,11 @@ curl_DEPENDENCIES = $(top_builddir)/lib/libcurl.la
 #libcurltool_la_SOURCES = $(curl_SOURCES)
 BUILT_SOURCES = tool_hugehelp.c
 CLEANFILES = tool_hugehelp.c
-EXTRA_DIST = mkhelp.pl makefile.dj Makefile.vc6 Makefile.b32 Makefile.m32 \
-	macos/curl.mcp.xml.sit.hqx                                        \
-	macos/MACINSTALL.TXT macos/src/curl_GUSIConfig.cpp \
-	macos/src/macos_main.cpp makefile.amiga curl.rc                   \
-	Makefile.netware Makefile.inc Makefile.Watcom CMakeLists.txt
+EXTRA_DIST = mkhelp.pl makefile.dj Makefile.vc6 Makefile.b32		\
+ Makefile.m32 macos/curl.mcp.xml.sit.hqx macos/MACINSTALL.TXT		\
+ macos/src/curl_GUSIConfig.cpp macos/src/macos_main.cpp makefile.amiga	\
+ curl.rc Makefile.netware Makefile.inc Makefile.Watcom CMakeLists.txt	\
+ checksrc.whitelist
 
 MANPAGE = $(top_srcdir)/docs/curl.1
 README = $(top_srcdir)/docs/MANUAL
@@ -684,8 +686,6 @@ clean-noinstLTLIBRARIES:
 	@$(MKDIR_P) ../lib/$(DEPDIR)
 	@: > ../lib/$(DEPDIR)/$(am__dirstamp)
 ../lib/libcurltool_la-strtoofft.lo: ../lib/$(am__dirstamp) \
-	../lib/$(DEPDIR)/$(am__dirstamp)
-../lib/libcurltool_la-strdup.lo: ../lib/$(am__dirstamp) \
 	../lib/$(DEPDIR)/$(am__dirstamp)
 ../lib/libcurltool_la-rawstr.lo: ../lib/$(am__dirstamp) \
 	../lib/$(DEPDIR)/$(am__dirstamp)
@@ -747,8 +747,6 @@ clean-binPROGRAMS:
 	rm -f $$list
 ../lib/curl-strtoofft.$(OBJEXT): ../lib/$(am__dirstamp) \
 	../lib/$(DEPDIR)/$(am__dirstamp)
-../lib/curl-strdup.$(OBJEXT): ../lib/$(am__dirstamp) \
-	../lib/$(DEPDIR)/$(am__dirstamp)
 ../lib/curl-rawstr.$(OBJEXT): ../lib/$(am__dirstamp) \
 	../lib/$(DEPDIR)/$(am__dirstamp)
 ../lib/curl-nonblock.$(OBJEXT): ../lib/$(am__dirstamp) \
@@ -770,12 +768,10 @@ distclean-compile:
 
 #include ../lib/$(DEPDIR)/curl-nonblock.Po
 #include ../lib/$(DEPDIR)/curl-rawstr.Po
-#include ../lib/$(DEPDIR)/curl-strdup.Po
 #include ../lib/$(DEPDIR)/curl-strtoofft.Po
 #include ../lib/$(DEPDIR)/curl-warnless.Po
 #include ../lib/$(DEPDIR)/libcurltool_la-nonblock.Plo
 #include ../lib/$(DEPDIR)/libcurltool_la-rawstr.Plo
-#include ../lib/$(DEPDIR)/libcurltool_la-strdup.Plo
 #include ../lib/$(DEPDIR)/libcurltool_la-strtoofft.Plo
 #include ../lib/$(DEPDIR)/libcurltool_la-warnless.Plo
 #include ./$(DEPDIR)/curl-tool_binmode.Po
@@ -810,6 +806,7 @@ distclean-compile:
 #include ./$(DEPDIR)/curl-tool_parsecfg.Po
 #include ./$(DEPDIR)/curl-tool_setopt.Po
 #include ./$(DEPDIR)/curl-tool_sleep.Po
+#include ./$(DEPDIR)/curl-tool_strdup.Po
 #include ./$(DEPDIR)/curl-tool_urlglob.Po
 #include ./$(DEPDIR)/curl-tool_util.Po
 #include ./$(DEPDIR)/curl-tool_vms.Po
@@ -848,6 +845,7 @@ distclean-compile:
 #include ./$(DEPDIR)/libcurltool_la-tool_parsecfg.Plo
 #include ./$(DEPDIR)/libcurltool_la-tool_setopt.Plo
 #include ./$(DEPDIR)/libcurltool_la-tool_sleep.Plo
+#include ./$(DEPDIR)/libcurltool_la-tool_strdup.Plo
 #include ./$(DEPDIR)/libcurltool_la-tool_urlglob.Plo
 #include ./$(DEPDIR)/libcurltool_la-tool_util.Plo
 #include ./$(DEPDIR)/libcurltool_la-tool_vms.Plo
@@ -1089,6 +1087,13 @@ libcurltool_la-tool_parsecfg.lo: tool_parsecfg.c
 #	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
 	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurltool_la_CPPFLAGS) $(CPPFLAGS) $(libcurltool_la_CFLAGS) $(CFLAGS) -c -o libcurltool_la-tool_parsecfg.lo `test -f 'tool_parsecfg.c' || echo '$(srcdir)/'`tool_parsecfg.c
 
+libcurltool_la-tool_strdup.lo: tool_strdup.c
+#	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurltool_la_CPPFLAGS) $(CPPFLAGS) $(libcurltool_la_CFLAGS) $(CFLAGS) -MT libcurltool_la-tool_strdup.lo -MD -MP -MF $(DEPDIR)/libcurltool_la-tool_strdup.Tpo -c -o libcurltool_la-tool_strdup.lo `test -f 'tool_strdup.c' || echo '$(srcdir)/'`tool_strdup.c
+#	$(AM_V_at)$(am__mv) $(DEPDIR)/libcurltool_la-tool_strdup.Tpo $(DEPDIR)/libcurltool_la-tool_strdup.Plo
+#	$(AM_V_CC)source='tool_strdup.c' object='libcurltool_la-tool_strdup.lo' libtool=yes 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurltool_la_CPPFLAGS) $(CPPFLAGS) $(libcurltool_la_CFLAGS) $(CFLAGS) -c -o libcurltool_la-tool_strdup.lo `test -f 'tool_strdup.c' || echo '$(srcdir)/'`tool_strdup.c
+
 libcurltool_la-tool_setopt.lo: tool_setopt.c
 #	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurltool_la_CPPFLAGS) $(CPPFLAGS) $(libcurltool_la_CFLAGS) $(CFLAGS) -MT libcurltool_la-tool_setopt.lo -MD -MP -MF $(DEPDIR)/libcurltool_la-tool_setopt.Tpo -c -o libcurltool_la-tool_setopt.lo `test -f 'tool_setopt.c' || echo '$(srcdir)/'`tool_setopt.c
 #	$(AM_V_at)$(am__mv) $(DEPDIR)/libcurltool_la-tool_setopt.Tpo $(DEPDIR)/libcurltool_la-tool_setopt.Plo
@@ -1151,13 +1156,6 @@ libcurltool_la-tool_xattr.lo: tool_xattr.c
 #	$(AM_V_CC)source='../lib/strtoofft.c' object='../lib/libcurltool_la-strtoofft.lo' libtool=yes 
 #	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
 	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurltool_la_CPPFLAGS) $(CPPFLAGS) $(libcurltool_la_CFLAGS) $(CFLAGS) -c -o ../lib/libcurltool_la-strtoofft.lo `test -f '../lib/strtoofft.c' || echo '$(srcdir)/'`../lib/strtoofft.c
-
-../lib/libcurltool_la-strdup.lo: ../lib/strdup.c
-#	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurltool_la_CPPFLAGS) $(CPPFLAGS) $(libcurltool_la_CFLAGS) $(CFLAGS) -MT ../lib/libcurltool_la-strdup.lo -MD -MP -MF ../lib/$(DEPDIR)/libcurltool_la-strdup.Tpo -c -o ../lib/libcurltool_la-strdup.lo `test -f '../lib/strdup.c' || echo '$(srcdir)/'`../lib/strdup.c
-#	$(AM_V_at)$(am__mv) ../lib/$(DEPDIR)/libcurltool_la-strdup.Tpo ../lib/$(DEPDIR)/libcurltool_la-strdup.Plo
-#	$(AM_V_CC)source='../lib/strdup.c' object='../lib/libcurltool_la-strdup.lo' libtool=yes 
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
-	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurltool_la_CPPFLAGS) $(CPPFLAGS) $(libcurltool_la_CFLAGS) $(CFLAGS) -c -o ../lib/libcurltool_la-strdup.lo `test -f '../lib/strdup.c' || echo '$(srcdir)/'`../lib/strdup.c
 
 ../lib/libcurltool_la-rawstr.lo: ../lib/rawstr.c
 #	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurltool_la_CPPFLAGS) $(CPPFLAGS) $(libcurltool_la_CFLAGS) $(CFLAGS) -MT ../lib/libcurltool_la-rawstr.lo -MD -MP -MF ../lib/$(DEPDIR)/libcurltool_la-rawstr.Tpo -c -o ../lib/libcurltool_la-rawstr.lo `test -f '../lib/rawstr.c' || echo '$(srcdir)/'`../lib/rawstr.c
@@ -1600,6 +1598,20 @@ curl-tool_parsecfg.obj: tool_parsecfg.c
 #	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
 	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(curl_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o curl-tool_parsecfg.obj `if test -f 'tool_parsecfg.c'; then $(CYGPATH_W) 'tool_parsecfg.c'; else $(CYGPATH_W) '$(srcdir)/tool_parsecfg.c'; fi`
 
+curl-tool_strdup.o: tool_strdup.c
+#	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(curl_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT curl-tool_strdup.o -MD -MP -MF $(DEPDIR)/curl-tool_strdup.Tpo -c -o curl-tool_strdup.o `test -f 'tool_strdup.c' || echo '$(srcdir)/'`tool_strdup.c
+#	$(AM_V_at)$(am__mv) $(DEPDIR)/curl-tool_strdup.Tpo $(DEPDIR)/curl-tool_strdup.Po
+#	$(AM_V_CC)source='tool_strdup.c' object='curl-tool_strdup.o' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(curl_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o curl-tool_strdup.o `test -f 'tool_strdup.c' || echo '$(srcdir)/'`tool_strdup.c
+
+curl-tool_strdup.obj: tool_strdup.c
+#	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(curl_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT curl-tool_strdup.obj -MD -MP -MF $(DEPDIR)/curl-tool_strdup.Tpo -c -o curl-tool_strdup.obj `if test -f 'tool_strdup.c'; then $(CYGPATH_W) 'tool_strdup.c'; else $(CYGPATH_W) '$(srcdir)/tool_strdup.c'; fi`
+#	$(AM_V_at)$(am__mv) $(DEPDIR)/curl-tool_strdup.Tpo $(DEPDIR)/curl-tool_strdup.Po
+#	$(AM_V_CC)source='tool_strdup.c' object='curl-tool_strdup.obj' libtool=no 
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(curl_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o curl-tool_strdup.obj `if test -f 'tool_strdup.c'; then $(CYGPATH_W) 'tool_strdup.c'; else $(CYGPATH_W) '$(srcdir)/tool_strdup.c'; fi`
+
 curl-tool_setopt.o: tool_setopt.c
 #	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(curl_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT curl-tool_setopt.o -MD -MP -MF $(DEPDIR)/curl-tool_setopt.Tpo -c -o curl-tool_setopt.o `test -f 'tool_setopt.c' || echo '$(srcdir)/'`tool_setopt.c
 #	$(AM_V_at)$(am__mv) $(DEPDIR)/curl-tool_setopt.Tpo $(DEPDIR)/curl-tool_setopt.Po
@@ -1725,20 +1737,6 @@ curl-tool_xattr.obj: tool_xattr.c
 #	$(AM_V_CC)source='../lib/strtoofft.c' object='../lib/curl-strtoofft.obj' libtool=no 
 #	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
 	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(curl_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o ../lib/curl-strtoofft.obj `if test -f '../lib/strtoofft.c'; then $(CYGPATH_W) '../lib/strtoofft.c'; else $(CYGPATH_W) '$(srcdir)/../lib/strtoofft.c'; fi`
-
-../lib/curl-strdup.o: ../lib/strdup.c
-#	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(curl_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT ../lib/curl-strdup.o -MD -MP -MF ../lib/$(DEPDIR)/curl-strdup.Tpo -c -o ../lib/curl-strdup.o `test -f '../lib/strdup.c' || echo '$(srcdir)/'`../lib/strdup.c
-#	$(AM_V_at)$(am__mv) ../lib/$(DEPDIR)/curl-strdup.Tpo ../lib/$(DEPDIR)/curl-strdup.Po
-#	$(AM_V_CC)source='../lib/strdup.c' object='../lib/curl-strdup.o' libtool=no 
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(curl_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o ../lib/curl-strdup.o `test -f '../lib/strdup.c' || echo '$(srcdir)/'`../lib/strdup.c
-
-../lib/curl-strdup.obj: ../lib/strdup.c
-#	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(curl_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT ../lib/curl-strdup.obj -MD -MP -MF ../lib/$(DEPDIR)/curl-strdup.Tpo -c -o ../lib/curl-strdup.obj `if test -f '../lib/strdup.c'; then $(CYGPATH_W) '../lib/strdup.c'; else $(CYGPATH_W) '$(srcdir)/../lib/strdup.c'; fi`
-#	$(AM_V_at)$(am__mv) ../lib/$(DEPDIR)/curl-strdup.Tpo ../lib/$(DEPDIR)/curl-strdup.Po
-#	$(AM_V_CC)source='../lib/strdup.c' object='../lib/curl-strdup.obj' libtool=no 
-#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) 
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(curl_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o ../lib/curl-strdup.obj `if test -f '../lib/strdup.c'; then $(CYGPATH_W) '../lib/strdup.c'; else $(CYGPATH_W) '$(srcdir)/../lib/strdup.c'; fi`
 
 ../lib/curl-rawstr.o: ../lib/rawstr.c
 #	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(curl_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT ../lib/curl-rawstr.o -MD -MP -MF ../lib/$(DEPDIR)/curl-rawstr.Tpo -c -o ../lib/curl-rawstr.o `test -f '../lib/rawstr.c' || echo '$(srcdir)/'`../lib/rawstr.c

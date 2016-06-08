@@ -79,7 +79,7 @@ build_triplet = x86_64-unknown-linux-gnu
 host_triplet = arm-unknown-linux-androideabi
 subdir = packages/AIX/RPM
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
-	$(top_srcdir)/mkinstalldirs $(srcdir)/curl.spec.in README
+	$(srcdir)/curl.spec.in README
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/curl-compilers.m4 \
 	$(top_srcdir)/m4/curl-confopts.m4 \
@@ -100,7 +100,7 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/curl-compilers.m4 \
 	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
-mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/lib/curl_config.h \
 	$(top_builddir)/include/curl/curlbuild.h
 CONFIG_CLEAN_FILES = curl.spec
@@ -126,25 +126,25 @@ am__can_run_installinfo = \
   esac
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-ACLOCAL = ${SHELL} "/Android/curl-7.38.0/missing" --run aclocal-1.14
+ACLOCAL = ${SHELL} /Users/garytan/Documents/curl-7.43.0/missing aclocal-1.14
 AMTAR = $${TAR-tar}
 AM_DEFAULT_VERBOSITY = 1
 AR = arm-linux-androideabi-ar
 AS = arm-linux-androideabi-as
-AUTOCONF = ${SHELL} "/Android/curl-7.38.0/missing" --run autoconf
-AUTOHEADER = ${SHELL} "/Android/curl-7.38.0/missing" --run autoheader
-AUTOMAKE = ${SHELL} "/Android/curl-7.38.0/missing" --run automake-1.14
-AWK = mawk
+AUTOCONF = ${SHELL} /Users/garytan/Documents/curl-7.43.0/missing autoconf
+AUTOHEADER = ${SHELL} /Users/garytan/Documents/curl-7.43.0/missing autoheader
+AUTOMAKE = ${SHELL} /Users/garytan/Documents/curl-7.43.0/missing automake-1.14
+AWK = awk
 BLANK_AT_MAKETIME = 
-CC = /Android/toolchain-arm/bin/arm-linux-androideabi-gcc
+CC = arm-linux-androideabi-gcc
 CCDEPMODE = depmode=none
-CFLAGS = -v -DANDROID --sysroot=/Android/toolchain-arm/sysroot -mandroid -march=armv7 -mfloat-abi=softfp -mfpu=vfp -mthumb -DCURL_STATICLIB -O2 -Wno-system-headers
-CFLAG_CURL_SYMBOL_HIDING = 
-CONFIGURE_OPTIONS = " '--host=arm-linux-androideabi' '--disable-shared' '--enable-static' '--disable-dependency-tracking' '--with-zlib=/Android/zlib' '--with-ssl=/Android/openssl-1.0.2d' '--without-ca-bundle' '--without-ca-path' '--enable-ipv6' '--enable-http' '--enable-ftp' '--disable-file' '--disable-ldap' '--disable-ldaps' '--disable-rtsp' '--disable-proxy' '--disable-dict' '--disable-telnet' '--disable-tftp' '--disable-pop3' '--disable-imap' '--disable-smtp' '--disable-gopher' '--disable-sspi' '--disable-manual' '--target=arm-linux-androideabi' '--build=x86_64-unknown-linux-gnu' '--prefix=/opt/curlssl' 'build_alias=x86_64-unknown-linux-gnu' 'host_alias=arm-linux-androideabi' 'target_alias=arm-linux-androideabi' 'CC=/Android/toolchain-arm/bin/arm-linux-androideabi-gcc' 'CFLAGS=-v -DANDROID --sysroot=/Android/toolchain-arm/sysroot -mandroid -march=armv7 -mfloat-abi=softfp -mfpu=vfp -mthumb -DCURL_STATICLIB' 'LDFLAGS=-L/Android/toolchain-arm/include -march=armv7 -Wl,--fix-cortex-a8 -L/Android/openssl-1.0.2d' 'CPPFLAGS=-mthumb -mfloat-abi=softfp -mfpu=vfp -march=armv7 -DANDROID-v -DANDROID --sysroot=/Android/toolchain-arm/sysroot -mandroid -march=armv7 -mfloat-abi=softfp -mfpu=vfp -mthumb -DCURL_STATICLIB -L/Android/openssl-1.0.2d/include'"
-CPP = /Android/toolchain-arm/bin/arm-linux-androideabi-gcc -E
-CPPFLAGS = -mthumb -mfloat-abi=softfp -mfpu=vfp -march=armv7 -DANDROID-v -DANDROID --sysroot=/Android/toolchain-arm/sysroot -mandroid -march=armv7 -mfloat-abi=softfp -mfpu=vfp -mthumb -DCURL_STATICLIB -L/Android/openssl-1.0.2d/include -I/Android/zlib/include -I/Android/openssl-1.0.2d/include -I/Android/openssl-1.0.2d/include/openssl
+CFLAGS = -O2 -Wno-system-headers
+CFLAG_CURL_SYMBOL_HIDING = -fvisibility=hidden
+CONFIGURE_OPTIONS = " '--host=arm-linux-androideabi' '--disable-shared' '--enable-static' '--disable-dependency-tracking' '--with-zlib=/Users/garytan/Documents/zlib' '--with-ssl=/Users/garytan/Documents/openssl-1.0.2c' '--without-ca-bundle' '--without-ca-path' '--enable-ipv6' '--enable-http' '--enable-ftp' '--disable-file' '--disable-ldap' '--disable-ldaps' '--disable-rtsp' '--disable-proxy' '--disable-dict' '--disable-telnet' '--disable-tftp' '--disable-pop3' '--disable-imap' '--disable-smtp' '--disable-gopher' '--disable-sspi' '--disable-manual' '--target=arm-linux-androideabi' '--build=x86_64-unknown-linux-gnu' '--prefix=/opt/curlssl' 'build_alias=x86_64-unknown-linux-gnu' 'host_alias=arm-linux-androideabi' 'target_alias=arm-linux-androideabi' 'CC=arm-linux-androideabi-gcc' 'CPPFLAGS=-mthumb -mfloat-abi=softfp -mfpu=vfp -march=armv7  -DANDROID'"
+CPP = arm-linux-androideabi-gcc -E
+CPPFLAGS = -mthumb -mfloat-abi=softfp -mfpu=vfp -march=armv7 -DANDROID -I/Users/garytan/Documents/zlib/include
 CPPFLAG_CURL_STATICLIB = -DCURL_STATICLIB
-CURLVERSION = 7.38.0
+CURLVERSION = 7.43.0
 CURL_CA_BUNDLE = 
 CURL_CFLAG_EXTRAS = 
 CURL_DISABLE_DICT = 1
@@ -158,6 +158,7 @@ CURL_DISABLE_LDAPS = 1
 CURL_DISABLE_POP3 = 1
 CURL_DISABLE_PROXY = 1
 CURL_DISABLE_RTSP = 1
+CURL_DISABLE_SMB = 
 CURL_DISABLE_SMTP = 1
 CURL_DISABLE_TELNET = 1
 CURL_DISABLE_TFTP = 1
@@ -170,19 +171,19 @@ DEPDIR = .deps
 DLLTOOL = false
 DSYMUTIL = 
 DUMPBIN = 
-ECHO_C = 
-ECHO_N = -n
+ECHO_C = \c
+ECHO_N = 
 ECHO_T = 
-EGREP = /bin/grep -E
+EGREP = /usr/bin/grep -E
 ENABLE_SHARED = no
 ENABLE_STATIC = yes
 EXEEXT = 
-FGREP = /bin/grep -F
-GREP = /bin/grep
+FGREP = /usr/bin/grep -F
+GREP = /usr/bin/grep
 HAVE_GNUTLS_SRP = 
 HAVE_LDAP_SSL = 
 HAVE_LIBZ = 1
-HAVE_SSLEAY_SRP = 1
+HAVE_OPENSSL_SRP = 
 IDN_ENABLED = 
 INSTALL = /usr/bin/install -c
 INSTALL_DATA = ${INSTALL} -m 644
@@ -191,22 +192,22 @@ INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
 IPV6_ENABLED = 1
 LD = arm-linux-androideabi-ld
-LDFLAGS = -L/Android/toolchain-arm/include -march=armv7 -Wl,--fix-cortex-a8 -L/Android/openssl-1.0.2d -L/Android/zlib/lib -L/Android/openssl-1.0.2d/lib
-LIBCURL_LIBS = -lssl -lcrypto -lz
+LDFLAGS = -L/Users/garytan/Documents/zlib/lib
+LIBCURL_LIBS = -lz
 LIBMETALINK_CPPFLAGS = 
 LIBMETALINK_LDFLAGS = 
 LIBMETALINK_LIBS = 
 LIBOBJS = 
-LIBS = -lssl -lcrypto -lz
+LIBS = -lz
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
 LIPO = 
 LN_S = ln -s
 LTLIBOBJS = 
 MAINT = #
-MAKEINFO = ${SHELL} "/Android/curl-7.38.0/missing" --run makeinfo
+MAKEINFO = ${SHELL} /Users/garytan/Documents/curl-7.43.0/missing makeinfo
 MANIFEST_TOOL = :
 MANOPT = -man
-MKDIR_P = /bin/mkdir -p
+MKDIR_P = ../../.././install-sh -c -d
 NM = arm-linux-androideabi-nm
 NMEDIT = 
 NROFF = /usr/bin/nroff
@@ -231,13 +232,14 @@ PKGCONFIG = no
 RANDOM_FILE = 
 RANLIB = arm-linux-androideabi-ranlib
 REQUIRE_LIB_DEPS = yes
-SED = /bin/sed
+SED = /usr/bin/sed
 SET_MAKE = 
-SHELL = /bin/bash
-SSL_ENABLED = 1
+SHELL = /bin/sh
+SSL_ENABLED = 
+SSL_LIBS = 
 STRIP = arm-linux-androideabi-strip
-SUPPORT_FEATURES = SSL IPv6 libz NTLM NTLM_WB TLS-SRP
-SUPPORT_PROTOCOLS = FTP FTPS HTTP HTTPS
+SUPPORT_FEATURES = IPv6 UnixSockets libz
+SUPPORT_PROTOCOLS = FTP HTTP
 USE_ARES = 
 USE_AXTLS = 
 USE_CYASSL = 
@@ -251,15 +253,15 @@ USE_NSS =
 USE_OPENLDAP = 
 USE_POLARSSL = 
 USE_SCHANNEL = 
-USE_SSLEAY = 1
+USE_UNIX_SOCKETS = 1
 USE_WINDOWS_SSPI = 
 VERSION = -
-VERSIONNUM = 072600
+VERSIONNUM = 072b00
 ZLIB_LIBS = -lz
-abs_builddir = /Android/curl-7.38.0/packages/AIX/RPM
-abs_srcdir = /Android/curl-7.38.0/packages/AIX/RPM
-abs_top_builddir = /Android/curl-7.38.0
-abs_top_srcdir = /Android/curl-7.38.0
+abs_builddir = /Users/garytan/Documents/curl-7.43.0/packages/AIX/RPM
+abs_srcdir = /Users/garytan/Documents/curl-7.43.0/packages/AIX/RPM
+abs_top_builddir = /Users/garytan/Documents/curl-7.43.0
+abs_top_srcdir = /Users/garytan/Documents/curl-7.43.0
 ac_ct_AR = 
 ac_ct_CC = 
 ac_ct_DUMPBIN = 
@@ -288,7 +290,7 @@ host_vendor = unknown
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = ${SHELL} /Android/curl-7.38.0/install-sh
+install_sh = ${SHELL} /Users/garytan/Documents/curl-7.43.0/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 libext = a
@@ -323,9 +325,9 @@ $(srcdir)/Makefile.in: # $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu packages/AIX/RPM/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign packages/AIX/RPM/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu packages/AIX/RPM/Makefile
+	  $(AUTOMAKE) --foreign packages/AIX/RPM/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \

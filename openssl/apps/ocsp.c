@@ -209,7 +209,6 @@ int MAIN(int argc, char **argv)
                 OPENSSL_free(tport);
             if (tpath)
                 OPENSSL_free(tpath);
-            thost = tport = tpath = NULL;
             if (args[1]) {
                 args++;
                 if (!OCSP_parse_url(*args, &host, &port, &path, &use_ssl)) {

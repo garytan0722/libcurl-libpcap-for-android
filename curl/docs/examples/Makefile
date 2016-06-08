@@ -36,6 +36,28 @@
 #
 ###########################################################################
 
+#***************************************************************************
+#                                  _   _ ____  _
+#  Project                     ___| | | |  _ \| |
+#                             / __| | | | |_) | |
+#                            | (__| |_| |  _ <| |___
+#                             \___|\___/|_| \_\_____|
+#
+# Copyright (C) 1998 - 2015, Daniel Stenberg, <daniel@haxx.se>, et al.
+#
+# This software is licensed as described in the file COPYING, which
+# you should have received as part of this distribution. The terms
+# are also available at http://curl.haxx.se/docs/copyright.html.
+#
+# You may opt to use, copy, modify, merge, publish, distribute and/or sell
+# copies of the Software, and permit persons to whom the Software is
+# furnished to do so, under the terms of the COPYING file.
+#
+# This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY
+# KIND, either express or implied.
+#
+###########################################################################
+
 am__is_gnu_make = test -n '$(MAKEFILE_LIST)' && test -n '$(MAKELEVEL)'
 am__make_running_with_option = \
   case $${target_option-} in \
@@ -101,8 +123,7 @@ build_triplet = x86_64-unknown-linux-gnu
 host_triplet = arm-unknown-linux-androideabi
 am__append_1 = -DCURL_STATICLIB
 DIST_COMMON = $(srcdir)/Makefile.inc $(srcdir)/Makefile.in \
-	$(srcdir)/Makefile.am $(top_srcdir)/mkinstalldirs \
-	$(top_srcdir)/depcomp README
+	$(srcdir)/Makefile.am $(top_srcdir)/depcomp README
 check_PROGRAMS = 10-at-a-time$(EXEEXT) anyauthput$(EXEEXT) \
 	cookie_interface$(EXEEXT) debug$(EXEEXT) fileupload$(EXEEXT) \
 	fopen$(EXEEXT) ftpget$(EXEEXT) ftpgetresp$(EXEEXT) \
@@ -127,7 +148,8 @@ check_PROGRAMS = 10-at-a-time$(EXEEXT) anyauthput$(EXEEXT) \
 	imap-search$(EXEEXT) imap-create$(EXEEXT) imap-delete$(EXEEXT) \
 	imap-copy$(EXEEXT) imap-noop$(EXEEXT) imap-ssl$(EXEEXT) \
 	imap-tls$(EXEEXT) imap-multi$(EXEEXT) url2file$(EXEEXT) \
-	sftpget$(EXEEXT) ftpsget$(EXEEXT) postinmemory$(EXEEXT)
+	sftpget$(EXEEXT) ftpsget$(EXEEXT) postinmemory$(EXEEXT) \
+	http2-download$(EXEEXT) http2-upload$(EXEEXT)
 subdir = docs/examples
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/curl-compilers.m4 \
@@ -149,7 +171,7 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/curl-compilers.m4 \
 	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
-mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/lib/curl_config.h \
 	$(top_builddir)/include/curl/curlbuild.h
 CONFIG_CLEAN_FILES =
@@ -281,6 +303,20 @@ http_post_LDADD = $(LDADD)
 #http_post_DEPENDENCIES =  \
 #	$(LIBDIR)/libcurl.la
 http_post_DEPENDENCIES =  \
+	$(LIBDIR)/libcurl.la
+http2_download_SOURCES = http2-download.c
+http2_download_OBJECTS = http2-download.$(OBJEXT)
+http2_download_LDADD = $(LDADD)
+#http2_download_DEPENDENCIES =  \
+#	$(LIBDIR)/libcurl.la
+http2_download_DEPENDENCIES =  \
+	$(LIBDIR)/libcurl.la
+http2_upload_SOURCES = http2-upload.c
+http2_upload_OBJECTS = http2-upload.$(OBJEXT)
+http2_upload_LDADD = $(LDADD)
+#http2_upload_DEPENDENCIES =  \
+#	$(LIBDIR)/libcurl.la
+http2_upload_DEPENDENCIES =  \
 	$(LIBDIR)/libcurl.la
 httpcustomheader_SOURCES = httpcustomheader.c
 httpcustomheader_OBJECTS = httpcustomheader.$(OBJEXT)
@@ -681,14 +717,14 @@ SOURCES = 10-at-a-time.c anyauthput.c certinfo.c chkspeed.c \
 	cookie_interface.c debug.c externalsocket.c fileupload.c \
 	fopen.c ftp-wildcard.c ftpget.c ftpgetinfo.c ftpgetresp.c \
 	ftpsget.c ftpupload.c getinfo.c getinmemory.c http-post.c \
-	httpcustomheader.c httpput.c https.c imap-append.c imap-copy.c \
-	imap-create.c imap-delete.c imap-examine.c imap-fetch.c \
-	imap-list.c imap-lsub.c imap-multi.c imap-noop.c imap-search.c \
-	imap-ssl.c imap-store.c imap-tls.c multi-app.c \
-	multi-debugcallback.c multi-double.c multi-post.c \
-	multi-single.c persistant.c pop3-dele.c pop3-list.c \
-	pop3-multi.c pop3-noop.c pop3-retr.c pop3-ssl.c pop3-stat.c \
-	pop3-tls.c pop3-top.c pop3-uidl.c post-callback.c \
+	http2-download.c http2-upload.c httpcustomheader.c httpput.c \
+	https.c imap-append.c imap-copy.c imap-create.c imap-delete.c \
+	imap-examine.c imap-fetch.c imap-list.c imap-lsub.c \
+	imap-multi.c imap-noop.c imap-search.c imap-ssl.c imap-store.c \
+	imap-tls.c multi-app.c multi-debugcallback.c multi-double.c \
+	multi-post.c multi-single.c persistant.c pop3-dele.c \
+	pop3-list.c pop3-multi.c pop3-noop.c pop3-retr.c pop3-ssl.c \
+	pop3-stat.c pop3-tls.c pop3-top.c pop3-uidl.c post-callback.c \
 	postinmemory.c postit2.c progressfunc.c resolve.c rtsp.c \
 	sendrecv.c sepheaders.c sftpget.c simple.c simplepost.c \
 	simplessl.c smtp-expn.c smtp-mail.c smtp-multi.c smtp-ssl.c \
@@ -697,14 +733,14 @@ DIST_SOURCES = 10-at-a-time.c anyauthput.c certinfo.c chkspeed.c \
 	cookie_interface.c debug.c externalsocket.c fileupload.c \
 	fopen.c ftp-wildcard.c ftpget.c ftpgetinfo.c ftpgetresp.c \
 	ftpsget.c ftpupload.c getinfo.c getinmemory.c http-post.c \
-	httpcustomheader.c httpput.c https.c imap-append.c imap-copy.c \
-	imap-create.c imap-delete.c imap-examine.c imap-fetch.c \
-	imap-list.c imap-lsub.c imap-multi.c imap-noop.c imap-search.c \
-	imap-ssl.c imap-store.c imap-tls.c multi-app.c \
-	multi-debugcallback.c multi-double.c multi-post.c \
-	multi-single.c persistant.c pop3-dele.c pop3-list.c \
-	pop3-multi.c pop3-noop.c pop3-retr.c pop3-ssl.c pop3-stat.c \
-	pop3-tls.c pop3-top.c pop3-uidl.c post-callback.c \
+	http2-download.c http2-upload.c httpcustomheader.c httpput.c \
+	https.c imap-append.c imap-copy.c imap-create.c imap-delete.c \
+	imap-examine.c imap-fetch.c imap-list.c imap-lsub.c \
+	imap-multi.c imap-noop.c imap-search.c imap-ssl.c imap-store.c \
+	imap-tls.c multi-app.c multi-debugcallback.c multi-double.c \
+	multi-post.c multi-single.c persistant.c pop3-dele.c \
+	pop3-list.c pop3-multi.c pop3-noop.c pop3-retr.c pop3-ssl.c \
+	pop3-stat.c pop3-tls.c pop3-top.c pop3-uidl.c post-callback.c \
 	postinmemory.c postit2.c progressfunc.c resolve.c rtsp.c \
 	sendrecv.c sepheaders.c sftpget.c simple.c simplepost.c \
 	simplessl.c smtp-expn.c smtp-mail.c smtp-multi.c smtp-ssl.c \
@@ -734,25 +770,25 @@ am__define_uniq_tagged_files = \
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-ACLOCAL = ${SHELL} "/Android/curl-7.38.0/missing" --run aclocal-1.14
+ACLOCAL = ${SHELL} /Users/garytan/Documents/curl-7.43.0/missing aclocal-1.14
 AMTAR = $${TAR-tar}
 AM_DEFAULT_VERBOSITY = 1
 AR = arm-linux-androideabi-ar
 AS = arm-linux-androideabi-as
-AUTOCONF = ${SHELL} "/Android/curl-7.38.0/missing" --run autoconf
-AUTOHEADER = ${SHELL} "/Android/curl-7.38.0/missing" --run autoheader
-AUTOMAKE = ${SHELL} "/Android/curl-7.38.0/missing" --run automake-1.14
-AWK = mawk
+AUTOCONF = ${SHELL} /Users/garytan/Documents/curl-7.43.0/missing autoconf
+AUTOHEADER = ${SHELL} /Users/garytan/Documents/curl-7.43.0/missing autoheader
+AUTOMAKE = ${SHELL} /Users/garytan/Documents/curl-7.43.0/missing automake-1.14
+AWK = awk
 BLANK_AT_MAKETIME = 
-CC = /Android/toolchain-arm/bin/arm-linux-androideabi-gcc
+CC = arm-linux-androideabi-gcc
 CCDEPMODE = depmode=none
-CFLAGS = -v -DANDROID --sysroot=/Android/toolchain-arm/sysroot -mandroid -march=armv7 -mfloat-abi=softfp -mfpu=vfp -mthumb -DCURL_STATICLIB -O2 -Wno-system-headers
-CFLAG_CURL_SYMBOL_HIDING = 
-CONFIGURE_OPTIONS = " '--host=arm-linux-androideabi' '--disable-shared' '--enable-static' '--disable-dependency-tracking' '--with-zlib=/Android/zlib' '--with-ssl=/Android/openssl-1.0.2d' '--without-ca-bundle' '--without-ca-path' '--enable-ipv6' '--enable-http' '--enable-ftp' '--disable-file' '--disable-ldap' '--disable-ldaps' '--disable-rtsp' '--disable-proxy' '--disable-dict' '--disable-telnet' '--disable-tftp' '--disable-pop3' '--disable-imap' '--disable-smtp' '--disable-gopher' '--disable-sspi' '--disable-manual' '--target=arm-linux-androideabi' '--build=x86_64-unknown-linux-gnu' '--prefix=/opt/curlssl' 'build_alias=x86_64-unknown-linux-gnu' 'host_alias=arm-linux-androideabi' 'target_alias=arm-linux-androideabi' 'CC=/Android/toolchain-arm/bin/arm-linux-androideabi-gcc' 'CFLAGS=-v -DANDROID --sysroot=/Android/toolchain-arm/sysroot -mandroid -march=armv7 -mfloat-abi=softfp -mfpu=vfp -mthumb -DCURL_STATICLIB' 'LDFLAGS=-L/Android/toolchain-arm/include -march=armv7 -Wl,--fix-cortex-a8 -L/Android/openssl-1.0.2d' 'CPPFLAGS=-mthumb -mfloat-abi=softfp -mfpu=vfp -march=armv7 -DANDROID-v -DANDROID --sysroot=/Android/toolchain-arm/sysroot -mandroid -march=armv7 -mfloat-abi=softfp -mfpu=vfp -mthumb -DCURL_STATICLIB -L/Android/openssl-1.0.2d/include'"
-CPP = /Android/toolchain-arm/bin/arm-linux-androideabi-gcc -E
-CPPFLAGS = -mthumb -mfloat-abi=softfp -mfpu=vfp -march=armv7 -DANDROID-v -DANDROID --sysroot=/Android/toolchain-arm/sysroot -mandroid -march=armv7 -mfloat-abi=softfp -mfpu=vfp -mthumb -DCURL_STATICLIB -L/Android/openssl-1.0.2d/include -I/Android/zlib/include -I/Android/openssl-1.0.2d/include -I/Android/openssl-1.0.2d/include/openssl
+CFLAGS = -O2 -Wno-system-headers
+CFLAG_CURL_SYMBOL_HIDING = -fvisibility=hidden
+CONFIGURE_OPTIONS = " '--host=arm-linux-androideabi' '--disable-shared' '--enable-static' '--disable-dependency-tracking' '--with-zlib=/Users/garytan/Documents/zlib' '--with-ssl=/Users/garytan/Documents/openssl-1.0.2c' '--without-ca-bundle' '--without-ca-path' '--enable-ipv6' '--enable-http' '--enable-ftp' '--disable-file' '--disable-ldap' '--disable-ldaps' '--disable-rtsp' '--disable-proxy' '--disable-dict' '--disable-telnet' '--disable-tftp' '--disable-pop3' '--disable-imap' '--disable-smtp' '--disable-gopher' '--disable-sspi' '--disable-manual' '--target=arm-linux-androideabi' '--build=x86_64-unknown-linux-gnu' '--prefix=/opt/curlssl' 'build_alias=x86_64-unknown-linux-gnu' 'host_alias=arm-linux-androideabi' 'target_alias=arm-linux-androideabi' 'CC=arm-linux-androideabi-gcc' 'CPPFLAGS=-mthumb -mfloat-abi=softfp -mfpu=vfp -march=armv7  -DANDROID'"
+CPP = arm-linux-androideabi-gcc -E
+CPPFLAGS = -mthumb -mfloat-abi=softfp -mfpu=vfp -march=armv7 -DANDROID -I/Users/garytan/Documents/zlib/include
 CPPFLAG_CURL_STATICLIB = -DCURL_STATICLIB
-CURLVERSION = 7.38.0
+CURLVERSION = 7.43.0
 CURL_CA_BUNDLE = 
 CURL_CFLAG_EXTRAS = 
 CURL_DISABLE_DICT = 1
@@ -766,6 +802,7 @@ CURL_DISABLE_LDAPS = 1
 CURL_DISABLE_POP3 = 1
 CURL_DISABLE_PROXY = 1
 CURL_DISABLE_RTSP = 1
+CURL_DISABLE_SMB = 
 CURL_DISABLE_SMTP = 1
 CURL_DISABLE_TELNET = 1
 CURL_DISABLE_TFTP = 1
@@ -778,19 +815,19 @@ DEPDIR = .deps
 DLLTOOL = false
 DSYMUTIL = 
 DUMPBIN = 
-ECHO_C = 
-ECHO_N = -n
+ECHO_C = \c
+ECHO_N = 
 ECHO_T = 
-EGREP = /bin/grep -E
+EGREP = /usr/bin/grep -E
 ENABLE_SHARED = no
 ENABLE_STATIC = yes
 EXEEXT = 
-FGREP = /bin/grep -F
-GREP = /bin/grep
+FGREP = /usr/bin/grep -F
+GREP = /usr/bin/grep
 HAVE_GNUTLS_SRP = 
 HAVE_LDAP_SSL = 
 HAVE_LIBZ = 1
-HAVE_SSLEAY_SRP = 1
+HAVE_OPENSSL_SRP = 
 IDN_ENABLED = 
 INSTALL = /usr/bin/install -c
 INSTALL_DATA = ${INSTALL} -m 644
@@ -799,8 +836,8 @@ INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
 IPV6_ENABLED = 1
 LD = arm-linux-androideabi-ld
-LDFLAGS = -L/Android/toolchain-arm/include -march=armv7 -Wl,--fix-cortex-a8 -L/Android/openssl-1.0.2d -L/Android/zlib/lib -L/Android/openssl-1.0.2d/lib
-LIBCURL_LIBS = -lssl -lcrypto -lz
+LDFLAGS = -L/Users/garytan/Documents/zlib/lib
+LIBCURL_LIBS = -lz
 LIBMETALINK_CPPFLAGS = 
 LIBMETALINK_LDFLAGS = 
 LIBMETALINK_LIBS = 
@@ -813,10 +850,10 @@ LIPO =
 LN_S = ln -s
 LTLIBOBJS = 
 MAINT = #
-MAKEINFO = ${SHELL} "/Android/curl-7.38.0/missing" --run makeinfo
+MAKEINFO = ${SHELL} /Users/garytan/Documents/curl-7.43.0/missing makeinfo
 MANIFEST_TOOL = :
 MANOPT = -man
-MKDIR_P = /bin/mkdir -p
+MKDIR_P = ../.././install-sh -c -d
 NM = arm-linux-androideabi-nm
 NMEDIT = 
 NROFF = /usr/bin/nroff
@@ -841,13 +878,14 @@ PKGCONFIG = no
 RANDOM_FILE = 
 RANLIB = arm-linux-androideabi-ranlib
 REQUIRE_LIB_DEPS = yes
-SED = /bin/sed
+SED = /usr/bin/sed
 SET_MAKE = 
-SHELL = /bin/bash
-SSL_ENABLED = 1
+SHELL = /bin/sh
+SSL_ENABLED = 
+SSL_LIBS = 
 STRIP = arm-linux-androideabi-strip
-SUPPORT_FEATURES = SSL IPv6 libz NTLM NTLM_WB TLS-SRP
-SUPPORT_PROTOCOLS = FTP FTPS HTTP HTTPS
+SUPPORT_FEATURES = IPv6 UnixSockets libz
+SUPPORT_PROTOCOLS = FTP HTTP
 USE_ARES = 
 USE_AXTLS = 
 USE_CYASSL = 
@@ -861,15 +899,15 @@ USE_NSS =
 USE_OPENLDAP = 
 USE_POLARSSL = 
 USE_SCHANNEL = 
-USE_SSLEAY = 1
+USE_UNIX_SOCKETS = 1
 USE_WINDOWS_SSPI = 
 VERSION = -
-VERSIONNUM = 072600
+VERSIONNUM = 072b00
 ZLIB_LIBS = -lz
-abs_builddir = /Android/curl-7.38.0/docs/examples
-abs_srcdir = /Android/curl-7.38.0/docs/examples
-abs_top_builddir = /Android/curl-7.38.0
-abs_top_srcdir = /Android/curl-7.38.0
+abs_builddir = /Users/garytan/Documents/curl-7.43.0/docs/examples
+abs_srcdir = /Users/garytan/Documents/curl-7.43.0/docs/examples
+abs_top_builddir = /Users/garytan/Documents/curl-7.43.0
+abs_top_srcdir = /Users/garytan/Documents/curl-7.43.0
 ac_ct_AR = 
 ac_ct_CC = 
 ac_ct_DUMPBIN = 
@@ -898,7 +936,7 @@ host_vendor = unknown
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = ${SHELL} /Android/curl-7.38.0/install-sh
+install_sh = ${SHELL} /Users/garytan/Documents/curl-7.43.0/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 libext = a
@@ -941,14 +979,14 @@ LIBDIR = $(top_builddir)/lib
 #LDADD = $(LIBDIR)/libcurl.la
 
 # Dependencies
-LDADD = $(LIBDIR)/libcurl.la -lssl -lcrypto -lz
+LDADD = $(LIBDIR)/libcurl.la -lz
 
 # These examples require external dependencies that may not be commonly
 # available on POSIX systems, so don't bother attempting to compile them here.
-COMPLICATED_EXAMPLES = curlgtk.c curlx.c htmltitle.cpp cacertinmem.c	   \
-  ftpuploadresume.c ghiper.c hiperfifo.c htmltidy.c multithread.c	   \
+COMPLICATED_EXAMPLES = curlgtk.c curlx.c htmltitle.cpp cacertinmem.c       \
+  ftpuploadresume.c ghiper.c hiperfifo.c htmltidy.c multithread.c          \
   opensslthreadlock.c sampleconv.c synctime.c threaded-ssl.c evhiperfifo.c \
-  smooth-gtk-thread.c version-check.pl href_extractor.c asiohiper.cpp \
+  smooth-gtk-thread.c version-check.pl href_extractor.c asiohiper.cpp      \
   multi-uv.c xmlstream.c usercertinmem.c sessioninfo.c
 
 all: all-am
@@ -1067,6 +1105,14 @@ getinmemory$(EXEEXT): $(getinmemory_OBJECTS) $(getinmemory_DEPENDENCIES) $(EXTRA
 http-post$(EXEEXT): $(http_post_OBJECTS) $(http_post_DEPENDENCIES) $(EXTRA_http_post_DEPENDENCIES) 
 	@rm -f http-post$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(http_post_OBJECTS) $(http_post_LDADD) $(LIBS)
+
+http2-download$(EXEEXT): $(http2_download_OBJECTS) $(http2_download_DEPENDENCIES) $(EXTRA_http2_download_DEPENDENCIES) 
+	@rm -f http2-download$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(http2_download_OBJECTS) $(http2_download_LDADD) $(LIBS)
+
+http2-upload$(EXEEXT): $(http2_upload_OBJECTS) $(http2_upload_DEPENDENCIES) $(EXTRA_http2_upload_DEPENDENCIES) 
+	@rm -f http2-upload$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(http2_upload_OBJECTS) $(http2_upload_LDADD) $(LIBS)
 
 httpcustomheader$(EXEEXT): $(httpcustomheader_OBJECTS) $(httpcustomheader_DEPENDENCIES) $(EXTRA_httpcustomheader_DEPENDENCIES) 
 	@rm -f httpcustomheader$(EXEEXT)
@@ -1300,6 +1346,8 @@ distclean-compile:
 #include ./$(DEPDIR)/getinfo.Po
 #include ./$(DEPDIR)/getinmemory.Po
 #include ./$(DEPDIR)/http-post.Po
+#include ./$(DEPDIR)/http2-download.Po
+#include ./$(DEPDIR)/http2-upload.Po
 #include ./$(DEPDIR)/httpcustomheader.Po
 #include ./$(DEPDIR)/httpput.Po
 #include ./$(DEPDIR)/https.Po

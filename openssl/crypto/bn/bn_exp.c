@@ -126,7 +126,13 @@
 # include <alloca.h>
 #endif
 
-#include "rsaz_exp.h"
+#undef RSAZ_ENABLED
+#if defined(OPENSSL_BN_ASM_MONT) && \
+        (defined(__x86_64) || defined(__x86_64__) || \
+         defined(_M_AMD64) || defined(_M_X64))
+# include "rsaz_exp.h"
+# define RSAZ_ENABLED
+#endif
 
 #undef SPARC_T4_MONT
 #if defined(OPENSSL_BN_ASM_MONT) && (defined(__sparc__) || defined(__sparc))

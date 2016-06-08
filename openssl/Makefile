@@ -4,7 +4,7 @@
 ## Makefile for OpenSSL
 ##
 
-VERSION=1.0.2d
+VERSION=1.0.2c
 MAJOR=1
 MINOR=0.2
 SHLIB_VERSION_NUMBER=1.0.0
@@ -13,8 +13,8 @@ SHLIB_MAJOR=1
 SHLIB_MINOR=0.0
 SHLIB_EXT=.so.$(SHLIB_MAJOR).$(SHLIB_MINOR)
 PLATFORM=android-armv7
-OPTIONS=--static --with-zlib-include=/Android/zlib/ --with-zlib-lib=/Android/zlib no-asm no-ec_nistp_64_gcc_128 no-gmp no-jpake no-krb5 no-libunbound no-md2 no-rc5 no-rfc3779 no-sctp no-shared no-ssl-trace no-store no-unit-test no-zlib no-zlib-dynamic static-engine
-CONFIGURE_ARGS=android-armv7 no-asm no-shared --static --with-zlib-include=/Android/zlib/ --with-zlib-lib=/Android/zlib
+OPTIONS=--static --with-zlib-include=/Users/garytan/Documents/zlib/include --with-zlib-lib=/Users/garytan/Documents/zlib/lib no-asm no-ec_nistp_64_gcc_128 no-gmp no-jpake no-krb5 no-libunbound no-md2 no-rc5 no-rfc3779 no-sctp no-shared no-ssl-trace no-store no-unit-test no-zlib no-zlib-dynamic static-engine
+CONFIGURE_ARGS=android-armv7 no-asm no-shared --static --with-zlib-include=/Users/garytan/Documents/zlib/include --with-zlib-lib=/Users/garytan/Documents/zlib/lib
 SHLIB_TARGET=linux-shared
 
 # HERE indicates where this Makefile lives.  This can be used to indicate
@@ -59,7 +59,7 @@ OPENSSLDIR=/usr/local/ssl
 # equal 4.
 # PKCS1_CHECK - pkcs1 tests.
 
-CC= /Android/toolchain-arm/bin/arm-linux-androideabi-gcc
+CC= arm-linux-androideabi-gcc
 CFLAG= -DOPENSSL_THREADS -D_REENTRANT -DDSO_DLFCN -DHAVE_DLFCN_H --static -march=armv7-a -mandroid -I$(ANDROID_DEV)/include -B$(ANDROID_DEV)/lib -O3 -fomit-frame-pointer -Wall
 DEPFLAG= -DOPENSSL_NO_EC_NISTP_64_GCC_128 -DOPENSSL_NO_GMP -DOPENSSL_NO_JPAKE -DOPENSSL_NO_LIBUNBOUND -DOPENSSL_NO_MD2 -DOPENSSL_NO_RC5 -DOPENSSL_NO_RFC3779 -DOPENSSL_NO_SCTP -DOPENSSL_NO_SSL_TRACE -DOPENSSL_NO_STORE -DOPENSSL_NO_UNIT_TEST
 PEX_LIBS= 
@@ -111,8 +111,8 @@ KRB5_INCLUDES=
 LIBKRB5=
 
 # Zlib stuff
-ZLIB_INCLUDE=-I/Android/zlib/
-LIBZLIB=/Android/zlib
+ZLIB_INCLUDE=-I/Users/garytan/Documents/zlib/include
+LIBZLIB=/Users/garytan/Documents/zlib/lib
 
 # TOP level FIPS install directory.
 FIPSDIR=/usr/local/ssl/fips-2.0
@@ -271,7 +271,6 @@ reflect:
 	@[ -n "$(THIS)" ] && $(CLEARENV) && $(MAKE) $(THIS) -e $(BUILDENV)
 
 sub_all: build_all
-
 build_all: build_libs build_apps build_tests build_tools
 
 build_libs: build_libcrypto build_libssl openssl.pc
@@ -281,15 +280,15 @@ build_libssl: build_ssl libssl.pc
 
 build_crypto:
 	@dir=crypto; target=all; $(BUILD_ONE_CMD)
-build_ssl: build_crypto
+build_ssl:
 	@dir=ssl; target=all; $(BUILD_ONE_CMD)
-build_engines: build_crypto
+build_engines:
 	@dir=engines; target=all; $(BUILD_ONE_CMD)
-build_apps: build_libs
+build_apps:
 	@dir=apps; target=all; $(BUILD_ONE_CMD)
-build_tests: build_libs
+build_tests:
 	@dir=test; target=all; $(BUILD_ONE_CMD)
-build_tools: build_libs
+build_tools:
 	@dir=tools; target=all; $(BUILD_ONE_CMD)
 
 all_testapps: build_libs build_testapps

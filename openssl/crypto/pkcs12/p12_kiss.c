@@ -135,12 +135,10 @@ int PKCS12_parse(PKCS12 *p12, const char *pass, EVP_PKEY **pkey, X509 **cert,
 
     while ((x = sk_X509_pop(ocerts))) {
         if (pkey && *pkey && cert && !*cert) {
-            ERR_set_mark();
             if (X509_check_private_key(x, *pkey)) {
                 *cert = x;
                 x = NULL;
             }
-            ERR_pop_to_mark();
         }
 
         if (ca && x) {

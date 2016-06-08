@@ -15,7 +15,6 @@ B<openssl> B<verify>
 [B<-attime timestamp>]
 [B<-check_ss_sig>]
 [B<-crlfile file>]
-[B<-crl_download>]
 [B<-crl_check>]
 [B<-crl_check_all>]
 [B<-policy_check>]
@@ -30,7 +29,6 @@ B<openssl> B<verify>
 [B<-untrusted file>]
 [B<-help>]
 [B<-issuer_checks>]
-[B<-trusted file>]
 [B<-verbose>]
 [B<->]
 [certificates]
@@ -70,10 +68,6 @@ because it doesn't add any security.
 =item B<-crlfile file>
 
 File containing one or more CRL's (in PEM format) to load.
-
-=item B<-crl_download>
-
-Attempt to download CRL information for this certificate.
 
 =item B<-crl_check>
 
@@ -138,11 +132,6 @@ trusted, then OpenSSL will continue to check to see if an alternative chain can
 be found that is trusted. With this option that behaviour is suppressed so that
 only the first chain found is ever used. Using this option will force the
 behaviour to match that of previous OpenSSL versions.
-
-=item B<-trusted file>
-
-A file of additional trusted certificates. The file should contain multiple
-certificates in PEM format concatenated together.
 
 =item B<-policy_print>
 

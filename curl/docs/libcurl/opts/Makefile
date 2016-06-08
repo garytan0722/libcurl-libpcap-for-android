@@ -21,7 +21,7 @@
 #                            | (__| |_| |  _ <| |___
 #                             \___|\___/|_| \_\_____|
 #
-# Copyright (C) 1998 - 2014, Daniel Stenberg, <daniel@haxx.se>, et al.
+# Copyright (C) 1998 - 2015, Daniel Stenberg, <daniel@haxx.se>, et al.
 #
 # This software is licensed as described in the file COPYING, which
 # you should have received as part of this distribution. The terms
@@ -100,8 +100,7 @@ POST_UNINSTALL = :
 build_triplet = x86_64-unknown-linux-gnu
 host_triplet = arm-unknown-linux-androideabi
 subdir = docs/libcurl/opts
-DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
-	$(top_srcdir)/mkinstalldirs
+DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/curl-compilers.m4 \
 	$(top_srcdir)/m4/curl-confopts.m4 \
@@ -122,7 +121,7 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/curl-compilers.m4 \
 	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
-mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/lib/curl_config.h \
 	$(top_builddir)/include/curl/curlbuild.h
 CONFIG_CLEAN_FILES =
@@ -180,25 +179,25 @@ am__installdirs = "$(DESTDIR)$(man3dir)"
 MANS = $(man_MANS)
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-ACLOCAL = ${SHELL} "/Android/curl-7.38.0/missing" --run aclocal-1.14
+ACLOCAL = ${SHELL} /Users/garytan/Documents/curl-7.43.0/missing aclocal-1.14
 AMTAR = $${TAR-tar}
 AM_DEFAULT_VERBOSITY = 1
 AR = arm-linux-androideabi-ar
 AS = arm-linux-androideabi-as
-AUTOCONF = ${SHELL} "/Android/curl-7.38.0/missing" --run autoconf
-AUTOHEADER = ${SHELL} "/Android/curl-7.38.0/missing" --run autoheader
-AUTOMAKE = ${SHELL} "/Android/curl-7.38.0/missing" --run automake-1.14
-AWK = mawk
+AUTOCONF = ${SHELL} /Users/garytan/Documents/curl-7.43.0/missing autoconf
+AUTOHEADER = ${SHELL} /Users/garytan/Documents/curl-7.43.0/missing autoheader
+AUTOMAKE = ${SHELL} /Users/garytan/Documents/curl-7.43.0/missing automake-1.14
+AWK = awk
 BLANK_AT_MAKETIME = 
-CC = /Android/toolchain-arm/bin/arm-linux-androideabi-gcc
+CC = arm-linux-androideabi-gcc
 CCDEPMODE = depmode=none
-CFLAGS = -v -DANDROID --sysroot=/Android/toolchain-arm/sysroot -mandroid -march=armv7 -mfloat-abi=softfp -mfpu=vfp -mthumb -DCURL_STATICLIB -O2 -Wno-system-headers
-CFLAG_CURL_SYMBOL_HIDING = 
-CONFIGURE_OPTIONS = " '--host=arm-linux-androideabi' '--disable-shared' '--enable-static' '--disable-dependency-tracking' '--with-zlib=/Android/zlib' '--with-ssl=/Android/openssl-1.0.2d' '--without-ca-bundle' '--without-ca-path' '--enable-ipv6' '--enable-http' '--enable-ftp' '--disable-file' '--disable-ldap' '--disable-ldaps' '--disable-rtsp' '--disable-proxy' '--disable-dict' '--disable-telnet' '--disable-tftp' '--disable-pop3' '--disable-imap' '--disable-smtp' '--disable-gopher' '--disable-sspi' '--disable-manual' '--target=arm-linux-androideabi' '--build=x86_64-unknown-linux-gnu' '--prefix=/opt/curlssl' 'build_alias=x86_64-unknown-linux-gnu' 'host_alias=arm-linux-androideabi' 'target_alias=arm-linux-androideabi' 'CC=/Android/toolchain-arm/bin/arm-linux-androideabi-gcc' 'CFLAGS=-v -DANDROID --sysroot=/Android/toolchain-arm/sysroot -mandroid -march=armv7 -mfloat-abi=softfp -mfpu=vfp -mthumb -DCURL_STATICLIB' 'LDFLAGS=-L/Android/toolchain-arm/include -march=armv7 -Wl,--fix-cortex-a8 -L/Android/openssl-1.0.2d' 'CPPFLAGS=-mthumb -mfloat-abi=softfp -mfpu=vfp -march=armv7 -DANDROID-v -DANDROID --sysroot=/Android/toolchain-arm/sysroot -mandroid -march=armv7 -mfloat-abi=softfp -mfpu=vfp -mthumb -DCURL_STATICLIB -L/Android/openssl-1.0.2d/include'"
-CPP = /Android/toolchain-arm/bin/arm-linux-androideabi-gcc -E
-CPPFLAGS = -mthumb -mfloat-abi=softfp -mfpu=vfp -march=armv7 -DANDROID-v -DANDROID --sysroot=/Android/toolchain-arm/sysroot -mandroid -march=armv7 -mfloat-abi=softfp -mfpu=vfp -mthumb -DCURL_STATICLIB -L/Android/openssl-1.0.2d/include -I/Android/zlib/include -I/Android/openssl-1.0.2d/include -I/Android/openssl-1.0.2d/include/openssl
+CFLAGS = -O2 -Wno-system-headers
+CFLAG_CURL_SYMBOL_HIDING = -fvisibility=hidden
+CONFIGURE_OPTIONS = " '--host=arm-linux-androideabi' '--disable-shared' '--enable-static' '--disable-dependency-tracking' '--with-zlib=/Users/garytan/Documents/zlib' '--with-ssl=/Users/garytan/Documents/openssl-1.0.2c' '--without-ca-bundle' '--without-ca-path' '--enable-ipv6' '--enable-http' '--enable-ftp' '--disable-file' '--disable-ldap' '--disable-ldaps' '--disable-rtsp' '--disable-proxy' '--disable-dict' '--disable-telnet' '--disable-tftp' '--disable-pop3' '--disable-imap' '--disable-smtp' '--disable-gopher' '--disable-sspi' '--disable-manual' '--target=arm-linux-androideabi' '--build=x86_64-unknown-linux-gnu' '--prefix=/opt/curlssl' 'build_alias=x86_64-unknown-linux-gnu' 'host_alias=arm-linux-androideabi' 'target_alias=arm-linux-androideabi' 'CC=arm-linux-androideabi-gcc' 'CPPFLAGS=-mthumb -mfloat-abi=softfp -mfpu=vfp -march=armv7  -DANDROID'"
+CPP = arm-linux-androideabi-gcc -E
+CPPFLAGS = -mthumb -mfloat-abi=softfp -mfpu=vfp -march=armv7 -DANDROID -I/Users/garytan/Documents/zlib/include
 CPPFLAG_CURL_STATICLIB = -DCURL_STATICLIB
-CURLVERSION = 7.38.0
+CURLVERSION = 7.43.0
 CURL_CA_BUNDLE = 
 CURL_CFLAG_EXTRAS = 
 CURL_DISABLE_DICT = 1
@@ -212,6 +211,7 @@ CURL_DISABLE_LDAPS = 1
 CURL_DISABLE_POP3 = 1
 CURL_DISABLE_PROXY = 1
 CURL_DISABLE_RTSP = 1
+CURL_DISABLE_SMB = 
 CURL_DISABLE_SMTP = 1
 CURL_DISABLE_TELNET = 1
 CURL_DISABLE_TFTP = 1
@@ -224,19 +224,19 @@ DEPDIR = .deps
 DLLTOOL = false
 DSYMUTIL = 
 DUMPBIN = 
-ECHO_C = 
-ECHO_N = -n
+ECHO_C = \c
+ECHO_N = 
 ECHO_T = 
-EGREP = /bin/grep -E
+EGREP = /usr/bin/grep -E
 ENABLE_SHARED = no
 ENABLE_STATIC = yes
 EXEEXT = 
-FGREP = /bin/grep -F
-GREP = /bin/grep
+FGREP = /usr/bin/grep -F
+GREP = /usr/bin/grep
 HAVE_GNUTLS_SRP = 
 HAVE_LDAP_SSL = 
 HAVE_LIBZ = 1
-HAVE_SSLEAY_SRP = 1
+HAVE_OPENSSL_SRP = 
 IDN_ENABLED = 
 INSTALL = /usr/bin/install -c
 INSTALL_DATA = ${INSTALL} -m 644
@@ -245,22 +245,22 @@ INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
 IPV6_ENABLED = 1
 LD = arm-linux-androideabi-ld
-LDFLAGS = -L/Android/toolchain-arm/include -march=armv7 -Wl,--fix-cortex-a8 -L/Android/openssl-1.0.2d -L/Android/zlib/lib -L/Android/openssl-1.0.2d/lib
-LIBCURL_LIBS = -lssl -lcrypto -lz
+LDFLAGS = -L/Users/garytan/Documents/zlib/lib
+LIBCURL_LIBS = -lz
 LIBMETALINK_CPPFLAGS = 
 LIBMETALINK_LDFLAGS = 
 LIBMETALINK_LIBS = 
 LIBOBJS = 
-LIBS = -lssl -lcrypto -lz
+LIBS = -lz
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
 LIPO = 
 LN_S = ln -s
 LTLIBOBJS = 
 MAINT = #
-MAKEINFO = ${SHELL} "/Android/curl-7.38.0/missing" --run makeinfo
+MAKEINFO = ${SHELL} /Users/garytan/Documents/curl-7.43.0/missing makeinfo
 MANIFEST_TOOL = :
 MANOPT = -man
-MKDIR_P = /bin/mkdir -p
+MKDIR_P = ../../.././install-sh -c -d
 NM = arm-linux-androideabi-nm
 NMEDIT = 
 NROFF = /usr/bin/nroff
@@ -285,13 +285,14 @@ PKGCONFIG = no
 RANDOM_FILE = 
 RANLIB = arm-linux-androideabi-ranlib
 REQUIRE_LIB_DEPS = yes
-SED = /bin/sed
+SED = /usr/bin/sed
 SET_MAKE = 
-SHELL = /bin/bash
-SSL_ENABLED = 1
+SHELL = /bin/sh
+SSL_ENABLED = 
+SSL_LIBS = 
 STRIP = arm-linux-androideabi-strip
-SUPPORT_FEATURES = SSL IPv6 libz NTLM NTLM_WB TLS-SRP
-SUPPORT_PROTOCOLS = FTP FTPS HTTP HTTPS
+SUPPORT_FEATURES = IPv6 UnixSockets libz
+SUPPORT_PROTOCOLS = FTP HTTP
 USE_ARES = 
 USE_AXTLS = 
 USE_CYASSL = 
@@ -305,15 +306,15 @@ USE_NSS =
 USE_OPENLDAP = 
 USE_POLARSSL = 
 USE_SCHANNEL = 
-USE_SSLEAY = 1
+USE_UNIX_SOCKETS = 1
 USE_WINDOWS_SSPI = 
 VERSION = -
-VERSIONNUM = 072600
+VERSIONNUM = 072b00
 ZLIB_LIBS = -lz
-abs_builddir = /Android/curl-7.38.0/docs/libcurl/opts
-abs_srcdir = /Android/curl-7.38.0/docs/libcurl/opts
-abs_top_builddir = /Android/curl-7.38.0
-abs_top_srcdir = /Android/curl-7.38.0
+abs_builddir = /Users/garytan/Documents/curl-7.43.0/docs/libcurl/opts
+abs_srcdir = /Users/garytan/Documents/curl-7.43.0/docs/libcurl/opts
+abs_top_builddir = /Users/garytan/Documents/curl-7.43.0
+abs_top_srcdir = /Users/garytan/Documents/curl-7.43.0
 ac_ct_AR = 
 ac_ct_CC = 
 ac_ct_DUMPBIN = 
@@ -342,7 +343,7 @@ host_vendor = unknown
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = ${SHELL} /Android/curl-7.38.0/install-sh
+install_sh = ${SHELL} /Users/garytan/Documents/curl-7.43.0/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 libext = a
@@ -409,8 +410,9 @@ man_MANS = CURLOPT_ACCEPT_ENCODING.3 CURLOPT_ACCEPTTIMEOUT_MS.3		\
  CURLOPT_NEW_DIRECTORY_PERMS.3 CURLOPT_NEW_FILE_PERMS.3			\
  CURLOPT_NOBODY.3 CURLOPT_NOPROGRESS.3 CURLOPT_NOPROXY.3		\
  CURLOPT_NOSIGNAL.3 CURLOPT_OPENSOCKETDATA.3				\
- CURLOPT_OPENSOCKETFUNCTION.3 CURLOPT_PASSWORD.3 CURLOPT_PORT.3		\
- CURLOPT_POST.3 CURLOPT_POSTFIELDS.3 CURLOPT_POSTFIELDSIZE.3		\
+ CURLOPT_OPENSOCKETFUNCTION.3 CURLOPT_PASSWORD.3			\
+ CURLOPT_PINNEDPUBLICKEY.3 CURLOPT_PORT.3 CURLOPT_POST.3		\
+ CURLOPT_POSTFIELDS.3 CURLOPT_POSTFIELDSIZE.3				\
  CURLOPT_POSTFIELDSIZE_LARGE.3 CURLOPT_POSTQUOTE.3 CURLOPT_POSTREDIR.3	\
  CURLOPT_PREQUOTE.3 CURLOPT_PRIVATE.3 CURLOPT_PROGRESSDATA.3		\
  CURLOPT_PROGRESSFUNCTION.3 CURLOPT_PROTOCOLS.3 CURLOPT_PROXY.3		\
@@ -433,20 +435,30 @@ man_MANS = CURLOPT_ACCEPT_ENCODING.3 CURLOPT_ACCEPTTIMEOUT_MS.3		\
  CURLOPT_SSLCERT.3 CURLOPT_SSLCERTTYPE.3 CURLOPT_SSL_CIPHER_LIST.3	\
  CURLOPT_SSL_CTX_DATA.3 CURLOPT_SSL_CTX_FUNCTION.3			\
  CURLOPT_SSL_ENABLE_ALPN.3 CURLOPT_SSL_ENABLE_NPN.3 CURLOPT_SSLENGINE.3	\
- CURLOPT_SSLENGINE_DEFAULT.3 CURLOPT_SSLKEY.3 CURLOPT_SSLKEYTYPE.3	\
- CURLOPT_SSL_OPTIONS.3 CURLOPT_SSL_SESSIONID_CACHE.3			\
- CURLOPT_SSL_VERIFYHOST.3 CURLOPT_SSL_VERIFYPEER.3 CURLOPT_SSLVERSION.3	\
- CURLOPT_STDERR.3 CURLOPT_TCP_KEEPALIVE.3 CURLOPT_TCP_KEEPIDLE.3	\
- CURLOPT_TCP_KEEPINTVL.3 CURLOPT_TCP_NODELAY.3 CURLOPT_TELNETOPTIONS.3	\
- CURLOPT_TFTP_BLKSIZE.3 CURLOPT_TIMECONDITION.3 CURLOPT_TIMEOUT.3	\
- CURLOPT_TIMEOUT_MS.3 CURLOPT_TIMEVALUE.3 CURLOPT_TLSAUTH_PASSWORD.3	\
- CURLOPT_TLSAUTH_TYPE.3 CURLOPT_TLSAUTH_USERNAME.3			\
- CURLOPT_TRANSFER_ENCODING.3 CURLOPT_TRANSFERTEXT.3			\
- CURLOPT_UNRESTRICTED_AUTH.3 CURLOPT_UPLOAD.3 CURLOPT_URL.3		\
- CURLOPT_USERAGENT.3 CURLOPT_USERNAME.3 CURLOPT_USERPWD.3		\
+ CURLOPT_SSLENGINE_DEFAULT.3 CURLOPT_SSL_FALSESTART.3 CURLOPT_SSLKEY.3	\
+ CURLOPT_SSLKEYTYPE.3 CURLOPT_SSL_OPTIONS.3				\
+ CURLOPT_SSL_SESSIONID_CACHE.3 CURLOPT_SSL_VERIFYHOST.3			\
+ CURLOPT_SSL_VERIFYPEER.3 CURLOPT_SSL_VERIFYSTATUS.3			\
+ CURLOPT_SSLVERSION.3 CURLOPT_STDERR.3 CURLOPT_TCP_KEEPALIVE.3		\
+ CURLOPT_TCP_KEEPIDLE.3 CURLOPT_TCP_KEEPINTVL.3 CURLOPT_TCP_NODELAY.3	\
+ CURLOPT_TELNETOPTIONS.3 CURLOPT_TFTP_BLKSIZE.3 CURLOPT_TIMECONDITION.3	\
+ CURLOPT_TIMEOUT.3 CURLOPT_TIMEOUT_MS.3 CURLOPT_TIMEVALUE.3		\
+ CURLOPT_TLSAUTH_PASSWORD.3 CURLOPT_TLSAUTH_TYPE.3			\
+ CURLOPT_TLSAUTH_USERNAME.3 CURLOPT_TRANSFER_ENCODING.3			\
+ CURLOPT_TRANSFERTEXT.3 CURLOPT_UNRESTRICTED_AUTH.3 CURLOPT_UPLOAD.3	\
+ CURLOPT_URL.3 CURLOPT_USERAGENT.3 CURLOPT_USERNAME.3 CURLOPT_USERPWD.3	\
  CURLOPT_USE_SSL.3 CURLOPT_VERBOSE.3 CURLOPT_WILDCARDMATCH.3		\
  CURLOPT_WRITEDATA.3 CURLOPT_WRITEFUNCTION.3 CURLOPT_XFERINFODATA.3	\
- CURLOPT_XFERINFOFUNCTION.3 CURLOPT_XOAUTH2_BEARER.3
+ CURLOPT_XFERINFOFUNCTION.3 CURLOPT_XOAUTH2_BEARER.3			\
+ CURLMOPT_CHUNK_LENGTH_PENALTY_SIZE.3					\
+ CURLMOPT_CONTENT_LENGTH_PENALTY_SIZE.3 CURLMOPT_MAXCONNECTS.3		\
+ CURLMOPT_MAX_HOST_CONNECTIONS.3 CURLMOPT_MAX_PIPELINE_LENGTH.3		\
+ CURLMOPT_MAX_TOTAL_CONNECTIONS.3 CURLMOPT_PIPELINING.3			\
+ CURLMOPT_PIPELINING_SERVER_BL.3 CURLMOPT_PIPELINING_SITE_BL.3		\
+ CURLMOPT_SOCKETDATA.3 CURLMOPT_SOCKETFUNCTION.3 CURLMOPT_TIMERDATA.3	\
+ CURLMOPT_TIMERFUNCTION.3 CURLOPT_UNIX_SOCKET_PATH.3			\
+ CURLOPT_PATH_AS_IS.3 CURLOPT_PROXY_SERVICE_NAME.3			\
+ CURLOPT_SERVICE_NAME.3 CURLOPT_PIPEWAIT.3
 
 HTMLPAGES = CURLOPT_ACCEPT_ENCODING.html CURLOPT_ACCEPTTIMEOUT_MS.html	\
  CURLOPT_ADDRESS_SCOPE.html CURLOPT_APPEND.html				\
@@ -501,8 +513,8 @@ HTMLPAGES = CURLOPT_ACCEPT_ENCODING.html CURLOPT_ACCEPTTIMEOUT_MS.html	\
  CURLOPT_NEW_FILE_PERMS.html CURLOPT_NOBODY.html			\
  CURLOPT_NOPROGRESS.html CURLOPT_NOPROXY.html CURLOPT_NOSIGNAL.html	\
  CURLOPT_OPENSOCKETDATA.html CURLOPT_OPENSOCKETFUNCTION.html		\
- CURLOPT_PASSWORD.html CURLOPT_PORT.html CURLOPT_POST.html		\
- CURLOPT_POSTFIELDS.html CURLOPT_POSTFIELDSIZE.html			\
+ CURLOPT_PASSWORD.html CURLOPT_PINNEDPUBLICKEY.html CURLOPT_PORT.html	\
+ CURLOPT_POST.html CURLOPT_POSTFIELDS.html CURLOPT_POSTFIELDSIZE.html	\
  CURLOPT_POSTFIELDSIZE_LARGE.html CURLOPT_POSTQUOTE.html		\
  CURLOPT_POSTREDIR.html CURLOPT_PREQUOTE.html CURLOPT_PRIVATE.html	\
  CURLOPT_PROGRESSDATA.html CURLOPT_PROGRESSFUNCTION.html		\
@@ -528,11 +540,11 @@ HTMLPAGES = CURLOPT_ACCEPT_ENCODING.html CURLOPT_ACCEPTTIMEOUT_MS.html	\
  CURLOPT_SSL_CIPHER_LIST.html CURLOPT_SSL_CTX_DATA.html			\
  CURLOPT_SSL_CTX_FUNCTION.html CURLOPT_SSL_ENABLE_ALPN.html		\
  CURLOPT_SSL_ENABLE_NPN.html CURLOPT_SSLENGINE.html			\
- CURLOPT_SSLENGINE_DEFAULT.html CURLOPT_SSLKEY.html			\
- CURLOPT_SSLKEYTYPE.html CURLOPT_SSL_OPTIONS.html			\
+ CURLOPT_SSLENGINE_DEFAULT.html CURLOPT_SSL_FALSESTART.html		\
+ CURLOPT_SSLKEY.html CURLOPT_SSLKEYTYPE.html CURLOPT_SSL_OPTIONS.html	\
  CURLOPT_SSL_SESSIONID_CACHE.html CURLOPT_SSL_VERIFYHOST.html		\
- CURLOPT_SSL_VERIFYPEER.html CURLOPT_SSLVERSION.html			\
- CURLOPT_STDERR.html CURLOPT_TCP_KEEPALIVE.html				\
+ CURLOPT_SSL_VERIFYPEER.html CURLOPT_SSL_VERIFYSTATUS.html		\
+ CURLOPT_SSLVERSION.html CURLOPT_STDERR.html CURLOPT_TCP_KEEPALIVE.html	\
  CURLOPT_TCP_KEEPIDLE.html CURLOPT_TCP_KEEPINTVL.html			\
  CURLOPT_TCP_NODELAY.html CURLOPT_TELNETOPTIONS.html			\
  CURLOPT_TFTP_BLKSIZE.html CURLOPT_TIMECONDITION.html			\
@@ -544,7 +556,17 @@ HTMLPAGES = CURLOPT_ACCEPT_ENCODING.html CURLOPT_ACCEPTTIMEOUT_MS.html	\
  CURLOPT_USERNAME.html CURLOPT_USERPWD.html CURLOPT_USE_SSL.html	\
  CURLOPT_VERBOSE.html CURLOPT_WILDCARDMATCH.html CURLOPT_WRITEDATA.html	\
  CURLOPT_WRITEFUNCTION.html CURLOPT_XFERINFODATA.html			\
- CURLOPT_XFERINFOFUNCTION.html CURLOPT_XOAUTH2_BEARER.html
+ CURLOPT_XFERINFOFUNCTION.html CURLOPT_XOAUTH2_BEARER.html		\
+ CURLMOPT_CHUNK_LENGTH_PENALTY_SIZE.html				\
+ CURLMOPT_CONTENT_LENGTH_PENALTY_SIZE.html CURLMOPT_MAXCONNECTS.html	\
+ CURLMOPT_MAX_HOST_CONNECTIONS.html CURLMOPT_MAX_PIPELINE_LENGTH.html	\
+ CURLMOPT_MAX_TOTAL_CONNECTIONS.html CURLMOPT_PIPELINING.html		\
+ CURLMOPT_PIPELINING_SERVER_BL.html CURLMOPT_PIPELINING_SITE_BL.html	\
+ CURLMOPT_SOCKETDATA.html CURLMOPT_SOCKETFUNCTION.html			\
+ CURLMOPT_TIMERDATA.html CURLMOPT_TIMERFUNCTION.html			\
+ CURLOPT_UNIX_SOCKET_PATH.html CURLOPT_PATH_AS_IS.html			\
+ CURLOPT_PROXY_SERVICE_NAME.html CURLOPT_SERVICE_NAME.html		\
+ CURLOPT_PIPEWAIT.html
 
 PDFPAGES = CURLOPT_ACCEPT_ENCODING.pdf CURLOPT_ACCEPTTIMEOUT_MS.pdf	\
  CURLOPT_ADDRESS_SCOPE.pdf CURLOPT_APPEND.pdf CURLOPT_AUTOREFERER.pdf	\
@@ -596,8 +618,9 @@ PDFPAGES = CURLOPT_ACCEPT_ENCODING.pdf CURLOPT_ACCEPTTIMEOUT_MS.pdf	\
  CURLOPT_NEW_DIRECTORY_PERMS.pdf CURLOPT_NEW_FILE_PERMS.pdf		\
  CURLOPT_NOBODY.pdf CURLOPT_NOPROGRESS.pdf CURLOPT_NOPROXY.pdf		\
  CURLOPT_NOSIGNAL.pdf CURLOPT_OPENSOCKETDATA.pdf			\
- CURLOPT_OPENSOCKETFUNCTION.pdf CURLOPT_PASSWORD.pdf CURLOPT_PORT.pdf	\
- CURLOPT_POST.pdf CURLOPT_POSTFIELDS.pdf CURLOPT_POSTFIELDSIZE.pdf	\
+ CURLOPT_OPENSOCKETFUNCTION.pdf CURLOPT_PASSWORD.pdf			\
+ CURLOPT_PINNEDPUBLICKEY.pdf CURLOPT_PORT.pdf CURLOPT_POST.pdf		\
+ CURLOPT_POSTFIELDS.pdf CURLOPT_POSTFIELDSIZE.pdf			\
  CURLOPT_POSTFIELDSIZE_LARGE.pdf CURLOPT_POSTQUOTE.pdf			\
  CURLOPT_POSTREDIR.pdf CURLOPT_PREQUOTE.pdf CURLOPT_PRIVATE.pdf		\
  CURLOPT_PROGRESSDATA.pdf CURLOPT_PROGRESSFUNCTION.pdf			\
@@ -623,23 +646,33 @@ PDFPAGES = CURLOPT_ACCEPT_ENCODING.pdf CURLOPT_ACCEPTTIMEOUT_MS.pdf	\
  CURLOPT_SSL_CIPHER_LIST.pdf CURLOPT_SSL_CTX_DATA.pdf			\
  CURLOPT_SSL_CTX_FUNCTION.pdf CURLOPT_SSL_ENABLE_ALPN.pdf		\
  CURLOPT_SSL_ENABLE_NPN.pdf CURLOPT_SSLENGINE.pdf			\
- CURLOPT_SSLENGINE_DEFAULT.pdf CURLOPT_SSLKEY.pdf			\
- CURLOPT_SSLKEYTYPE.pdf CURLOPT_SSL_OPTIONS.pdf				\
+ CURLOPT_SSLENGINE_DEFAULT.pdf CURLOPT_SSL_FALSESTART.pdf		\
+ CURLOPT_SSLKEY.pdf CURLOPT_SSLKEYTYPE.pdf CURLOPT_SSL_OPTIONS.pdf	\
  CURLOPT_SSL_SESSIONID_CACHE.pdf CURLOPT_SSL_VERIFYHOST.pdf		\
- CURLOPT_SSL_VERIFYPEER.pdf CURLOPT_SSLVERSION.pdf CURLOPT_STDERR.pdf	\
- CURLOPT_TCP_KEEPALIVE.pdf CURLOPT_TCP_KEEPIDLE.pdf			\
- CURLOPT_TCP_KEEPINTVL.pdf CURLOPT_TCP_NODELAY.pdf			\
- CURLOPT_TELNETOPTIONS.pdf CURLOPT_TFTP_BLKSIZE.pdf			\
- CURLOPT_TIMECONDITION.pdf CURLOPT_TIMEOUT.pdf CURLOPT_TIMEOUT_MS.pdf	\
- CURLOPT_TIMEVALUE.pdf CURLOPT_TLSAUTH_PASSWORD.pdf			\
- CURLOPT_TLSAUTH_TYPE.pdf CURLOPT_TLSAUTH_USERNAME.pdf			\
- CURLOPT_TRANSFER_ENCODING.pdf CURLOPT_TRANSFERTEXT.pdf			\
- CURLOPT_UNRESTRICTED_AUTH.pdf CURLOPT_UPLOAD.pdf CURLOPT_URL.pdf	\
- CURLOPT_USERAGENT.pdf CURLOPT_USERNAME.pdf CURLOPT_USERPWD.pdf		\
- CURLOPT_USE_SSL.pdf CURLOPT_VERBOSE.pdf CURLOPT_WILDCARDMATCH.pdf	\
- CURLOPT_WRITEDATA.pdf CURLOPT_WRITEFUNCTION.pdf			\
- CURLOPT_XFERINFODATA.pdf CURLOPT_XFERINFOFUNCTION.pdf			\
- CURLOPT_XOAUTH2_BEARER.pdf
+ CURLOPT_SSL_VERIFYPEER.pdf CURLOPT_SSL_VERIFYSTATUS.pdf		\
+ CURLOPT_SSLVERSION.pdf CURLOPT_STDERR.pdf CURLOPT_TCP_KEEPALIVE.pdf	\
+ CURLOPT_TCP_KEEPIDLE.pdf CURLOPT_TCP_KEEPINTVL.pdf			\
+ CURLOPT_TCP_NODELAY.pdf CURLOPT_TELNETOPTIONS.pdf			\
+ CURLOPT_TFTP_BLKSIZE.pdf CURLOPT_TIMECONDITION.pdf CURLOPT_TIMEOUT.pdf	\
+ CURLOPT_TIMEOUT_MS.pdf CURLOPT_TIMEVALUE.pdf				\
+ CURLOPT_TLSAUTH_PASSWORD.pdf CURLOPT_TLSAUTH_TYPE.pdf			\
+ CURLOPT_TLSAUTH_USERNAME.pdf CURLOPT_TRANSFER_ENCODING.pdf		\
+ CURLOPT_TRANSFERTEXT.pdf CURLOPT_UNRESTRICTED_AUTH.pdf			\
+ CURLOPT_UPLOAD.pdf CURLOPT_URL.pdf CURLOPT_USERAGENT.pdf		\
+ CURLOPT_USERNAME.pdf CURLOPT_USERPWD.pdf CURLOPT_USE_SSL.pdf		\
+ CURLOPT_VERBOSE.pdf CURLOPT_WILDCARDMATCH.pdf CURLOPT_WRITEDATA.pdf	\
+ CURLOPT_WRITEFUNCTION.pdf CURLOPT_XFERINFODATA.pdf			\
+ CURLOPT_XFERINFOFUNCTION.pdf CURLOPT_XOAUTH2_BEARER.pdf		\
+ CURLMOPT_CHUNK_LENGTH_PENALTY_SIZE.pdf					\
+ CURLMOPT_CONTENT_LENGTH_PENALTY_SIZE.pdf CURLMOPT_MAXCONNECTS.pdf	\
+ CURLMOPT_MAX_HOST_CONNECTIONS.pdf CURLMOPT_MAX_PIPELINE_LENGTH.pdf	\
+ CURLMOPT_MAX_TOTAL_CONNECTIONS.pdf CURLMOPT_PIPELINING.pdf		\
+ CURLMOPT_PIPELINING_SERVER_BL.pdf CURLMOPT_PIPELINING_SITE_BL.pdf	\
+ CURLMOPT_SOCKETDATA.pdf CURLMOPT_SOCKETFUNCTION.pdf			\
+ CURLMOPT_TIMERDATA.pdf CURLMOPT_TIMERFUNCTION.pdf			\
+ CURLOPT_UNIX_SOCKET_PATH.pdf CURLOPT_PATH_AS_IS.pdf			\
+ CURLOPT_PROXY_SERVICE_NAME.pdf CURLOPT_SERVICE_NAME.pdf		\
+ CURLOPT_PIPEWAIT.pdf
 
 CLEANFILES = $(HTMLPAGES) $(PDFPAGES)
 EXTRA_DIST = $(man_MANS) $(HTMLPAGES) $(PDFPAGES)
